@@ -4,6 +4,7 @@
 import setting
 
 
+import logging
 import tornado.web
 import tornado.ioloop
 import handlers

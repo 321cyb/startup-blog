@@ -8,6 +8,7 @@ import hashlib
 import time
 import datetime
 import urllib.parse
+import logging
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -28,7 +29,15 @@ class HomeHandler(BaseHandler):
             self.user_status = self.get_cookie("authenticated_user")
             self.login_success = True
 
-        self.render("home.html")
+        posts = self.application.db.posts.find()
+
+        logging.error("posts start")
+        for post in posts:
+            logging.error(type(post))
+            logging.error(post['title'])
+        logging.error("posts end")
+
+        self.render("home.html", posts = posts)
 
 
 class LoginHandler(BaseHandler):
