@@ -1,0 +1,19 @@
+
+.header {
+    background-color: #dddddd;
+    height: 20px;
+    width: 100%;
+}
+
+.bottom {
+    height: 20px;
+    width: 100%;
+    background-color: #dddddd;
+    float: bottom;
+}
+
+body {
+    width: 1000px;
+    height: 100%;
+    margin: auto;
+}

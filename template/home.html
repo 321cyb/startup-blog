@@ -2,12 +2,18 @@
     
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <link href="../static/blog.css" type="text/css" rel="stylesheet"/>
         <title>
             Startup Blog
         </title>
     </head>
     
     <body>
+        <div class="header">
+        <p>test</p>
+        </div>
+
+
         <p>{{handler.user_status}}</p>
         {% if not handler.login_success %}
         <a href="/login">Login</a>
@@ -23,6 +29,19 @@
          <div>{% raw  post["content"] %}</div>
          <hr>
         {% end %}
+
+        <div class="bottom">
+            {% for page in pages %}
+            {% if page == 1%}
+            <span>|</span>
+            {% end %}
+            {% if page == current_page%}
+            <a href="/page/{{page}}"><span style="color:#ff0000">{{page}}</span></a>
+            {% else %}
+            <a href="/page/{{page}}">{{page}}</a>
+            {% end %}
+            {% end %}
+        </div>
     </body>
 
 </html>
