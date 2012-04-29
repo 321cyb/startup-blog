@@ -59,3 +59,26 @@ class LoginHandler(BaseHandler):
         self.redirect("/login?" + urllib.parse.urlencode({"login_failed": "true"}))
 
 
+class LogoutHandler(BaseHandler):
+    def get(self):
+        self.clear_cookie("authenticated_user")
+        self.clear_cookie("authenticated_time")
+        self.redirect("/")
+
+
+class ComposeHandler(BaseHandler):
+    compose_result = ""
+    def get(self):
+        self.render("compose.html")
+
+
+    def post(self):
+        title = self.get_argument("title")
+        content = self.get_argument("content")
+
+        current_time = datetime.datetime.now()
+
+        posts = self.application.db.posts
+        post = {"title": title, "content" : content, "time" : current_time}
+        posts.insert(post)
+        self.redirect("/")
