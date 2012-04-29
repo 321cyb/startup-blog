@@ -17,3 +17,6 @@ MONGODB_PORT =  27017
 
 #cookie expries
 COOKIE_EXPIRE_DAYS = 7
+
+#How many posts to show on one page
+POSTS_PER_PAGE = 10

@@ -19,7 +19,7 @@
 
         {% for post in posts %}
          <p>{{post["title"]}}</p>
-         <p>{{post["time"]}}</p>
+         <p>{{ datetime.datetime.fromtimestamp( post["time"] ) }}</p>
          <div>{% raw  post["content"] %}</div>
          <hr>
         {% end %}
