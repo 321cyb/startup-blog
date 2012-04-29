@@ -16,6 +16,13 @@
         <br/>
         <a href="/compose">Compose</a>
         {% end %}
+
+        {%for post in posts%}
+         <p>{{post.title}}</p>
+         <p>{{post.time}}</p>
+         <p>{{post.content}}</p>
+         <hr>
+        {%end%}
     </body>
 
 </html>
