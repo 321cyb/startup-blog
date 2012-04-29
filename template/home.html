@@ -13,7 +13,6 @@
         <p>test</p>
         </div>
 
-
         <p>{{handler.user_status}}</p>
         {% if not handler.login_success %}
         <a href="/login">Login</a>
@@ -24,7 +23,9 @@
 
         {% for post in posts %}
          <p>{{post["title"]}}</p>
+         {% if handler.login_success %}
          <a href="/delete/{{post["_id"]}}"  style="float:right">delete</a> 
+         {% end %}
          <p>{{ datetime.datetime.fromtimestamp( post["time"] ) }}</p>
          <div>{% raw  post["content"] %}</div>
          <hr>

@@ -6,7 +6,7 @@
 }
 
 .bottom {
-    height: 20px;
+    height: 25px;
     width: 100%;
     background-color: #dddddd;
     float: bottom;
@@ -15,5 +15,6 @@
 body {
     width: 1000px;
     height: 100%;
+    padding: 20px 0px 40px 0px;
     margin: auto;
 }
