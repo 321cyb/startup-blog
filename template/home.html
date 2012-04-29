@@ -20,7 +20,7 @@
         {% for post in posts %}
          <p>{{post["title"]}}</p>
          <p>{{post["time"]}}</p>
-         <p>{{post["content"]}}</p>
+         <div>{% raw  post["content"] %}</div>
          <hr>
         {% end %}
     </body>

@@ -7,9 +7,10 @@ import setting
 import hashlib
 import time
 import datetime
-import urllib.parse
 import logging
+import urllib.parse
 
+import markdown
 
 class BaseHandler(tornado.web.RequestHandler):
     def verifyuser(self, user, time):
@@ -77,10 +78,11 @@ class ComposeHandler(BaseHandler):
     def post(self):
         title = self.get_argument("title")
         content = self.get_argument("content")
+        html = markdown.markdown(content)
 
         current_time = datetime.datetime.now()
 
         posts = self.application.db.posts
-        post = {"title": title, "content" : content, "time" : current_time}
+        post = {"title": title, "content" : html, "time" : current_time}
         posts.insert(post)
         self.redirect("/")
