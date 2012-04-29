@@ -15,7 +15,9 @@ class Application(tornado.web.Application):
         def __init__(self):
                 _handlers = [
                         ("/", handlers.HomeHandler),
-                        ("/login", handlers.LoginHandler)
+                        ("/login", handlers.LoginHandler),
+                        ("/logout", handlers.LogoutHandler),
+                        ("/compose", handlers.ComposeHandler)
                    ]
                 settings = dict(
                        template_path = "template/",
