@@ -3,20 +3,22 @@
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
         <title>
-            Startup Blog-Login
+            Login
         </title>
     </head>
     
     <body>
         <h2>
-            登录
+            Welcome to Startup Blog！
         </h2>
         <form action="/login" method="post" enctype="multipart/form-data">
             User:
-            <input type="text" name="user">
-            <br/>
+            <input type="text" name="username">
             Password:
-            <input type="text" name="pwd">
+            <input type="text" name="password">
+            <p>
+                {{login_result}}
+            </p>
             <br/>
             <input type="submit">
         </form>
