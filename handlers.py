@@ -22,11 +22,12 @@ class BaseHandler(tornado.web.RequestHandler):
 
 class HomeHandler(BaseHandler):
     login_success = False
+    user_status = "Not logged in."
     def get(self):
         if self.verifyuser(self.get_cookie("authenticated_user"), self.get_cookie("authenticated_time")):
-            self.render("home.html", user_status = self.get_cookie("authenticated_user"))
-        else:
-            self.render("home.html", user_status = "Not logged in.")
+            self.user_status = self.get_cookie("authenticated_user")
+
+        self.render("home.html")
 
 
 class LoginHandler(BaseHandler):
