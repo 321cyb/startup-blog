@@ -11,6 +11,7 @@ import logging
 import urllib.parse
 
 import markdown
+import pymongo
 
 class BaseHandler(tornado.web.RequestHandler):
     def verifyuser(self, user, time):
@@ -30,7 +31,7 @@ class HomeHandler(BaseHandler):
             self.user_status = self.get_cookie("authenticated_user")
             self.login_success = True
 
-        posts = self.application.db.posts.find()
+        posts = self.application.db.posts.find().sort("time", pymongo.DESCENDING).limit(setting.POSTS_PER_PAGE)
         self.render("home.html", posts = posts)
 
 
@@ -80,7 +81,7 @@ class ComposeHandler(BaseHandler):
         content = self.get_argument("content")
         html = markdown.markdown(content)
 
-        current_time = datetime.datetime.now()
+        current_time = int(time.time())
 
         posts = self.application.db.posts
         post = {"title": title, "content" : html, "time" : current_time}
