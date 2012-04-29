@@ -8,3 +8,12 @@ sys.path.append(os.path.join(os.getcwd(), "dependencies"))
 
 #DO NOT CHANGE THIS! nginx forwards requests to here.
 LISTEN_PORT = 8888
+
+
+#DB setting
+MONGODB_HOST = "localhost"
+MONGODB_PORT =  27017
+
+
+#cookie expries
+COOKIE_EXPIRE_DAYS = 7
