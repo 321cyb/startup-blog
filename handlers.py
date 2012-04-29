@@ -26,6 +26,7 @@ class HomeHandler(BaseHandler):
     def get(self):
         if self.verifyuser(self.get_cookie("authenticated_user"), self.get_cookie("authenticated_time")):
             self.user_status = self.get_cookie("authenticated_user")
+            self.login_success = True
 
         self.render("home.html")
 
