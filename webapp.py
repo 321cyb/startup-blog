@@ -15,10 +15,12 @@ import pymongo
 class Application(tornado.web.Application):
         def __init__(self):
                 _handlers = [
-                        ("/", handlers.HomeHandler),
-                        ("/login", handlers.LoginHandler),
-                        ("/logout", handlers.LogoutHandler),
-                        ("/compose", handlers.ComposeHandler)
+                        (r"/", handlers.HomeHandler),
+                        (r"/login", handlers.LoginHandler),
+                        (r"/logout", handlers.LogoutHandler),
+                        (r"/compose", handlers.ComposeHandler),
+                        (r"/delete/(\w+)", handlers.DeleteHandler),
+                        (r"/page/(\d+)", handlers.PageHandler)
                    ]
                 settings = dict(
                        template_path = "template/",

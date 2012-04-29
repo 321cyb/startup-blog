@@ -12,6 +12,7 @@ import urllib.parse
 
 import markdown
 import pymongo
+from  bson.objectid import ObjectId
 
 class BaseHandler(tornado.web.RequestHandler):
     def verifyuser(self, user, time):
@@ -23,16 +24,44 @@ class BaseHandler(tornado.web.RequestHandler):
         return False
 
 
-class HomeHandler(BaseHandler):
+class PageHandler(BaseHandler):
+    current_page = 0
     login_success = False
-    user_status = "Not logged in."
-    def get(self):
+    user_status = "Not logged in."    
+    
+    def generate_pages(self, page_list):
+        left_most = self.current_page - 4  if (self.current_page - 4) >= 1 else 1
+        right_most = self.current_page + 4 if (self.current_page + 4) <= page_list[-1] else page_list[-1]
+        return list(range(left_most, right_most + 1))
+
+    def get(self, pagenumber): 
         if self.verifyuser(self.get_cookie("authenticated_user"), self.get_cookie("authenticated_time")):
             self.user_status = self.get_cookie("authenticated_user")
             self.login_success = True
 
-        posts = self.application.db.posts.find().sort("time", pymongo.DESCENDING).limit(setting.POSTS_PER_PAGE)
-        self.render("home.html", posts = posts)
+        self.current_page = int(pagenumber)
+        posts_number = self.application.db.posts.find().count()
+        if  posts_number > 0:
+            pages, remainder = divmod(posts_number, setting.POSTS_PER_PAGE) 
+            if remainder > 0:
+                pages += 1
+            page_list = self.generate_pages(list(range(1, pages + 1)))
+            if self.current_page == 1:
+                posts = self.application.db.posts.find().sort("time", pymongo.DESCENDING).limit(setting.POSTS_PER_PAGE)
+            else:
+                posts = self.application.db.posts.find().sort("time", pymongo.DESCENDING) \
+                            .skip((self.current_page - 1)* setting.POSTS_PER_PAGE) \
+                                    .limit(setting.POSTS_PER_PAGE)
+        else:
+            posts = []
+            page_list = []
+        self.render("home.html", posts = posts, pages= page_list, current_page = self.current_page)
+
+
+
+class HomeHandler(PageHandler):
+    def get(self):
+        return PageHandler.get(self, 1)
 
 
 class LoginHandler(BaseHandler):
@@ -87,3 +116,12 @@ class ComposeHandler(BaseHandler):
         post = {"title": title, "content" : html, "time" : current_time}
         posts.insert(post)
         self.redirect("/")
+
+
+class DeleteHandler(BaseHandler):
+    def get(self, delete_id):
+        posts = self.application.db.posts
+        logging.error("id is " + delete_id)
+        posts.remove({"_id" : ObjectId(delete_id)})
+        self.redirect("/")
+

@@ -33,7 +33,7 @@
 
         <div class="bottom">
             {% for page in pages %}
-            {% if page not 1%}
+            {% if page != 1%}
             <span>|</span>
             {% end %}
             {% if page == current_page%}
