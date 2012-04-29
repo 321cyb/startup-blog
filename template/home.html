@@ -13,12 +13,12 @@
         <a href="/login">Login</a>
         {% else %}
         <a href="/logout">Logout</a>
-        <br/>
         <a href="/compose">Compose</a>
         {% end %}
 
         {% for post in posts %}
          <p>{{post["title"]}}</p>
+         <a href="/delete/{{post["_id"]}}"  style="float:right">delete</href> 
          <p>{{post["time"]}}</p>
          <div>{% raw  post["content"] %}</div>
          <hr>
