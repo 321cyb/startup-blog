@@ -8,8 +8,10 @@
     </head>
     
     <body>
-        <p>{{user_status}}</p>
+        <p>{{handler.user_status}}</p>
+        <% if handler.login_success %>
         <a href="/login">Login</a>
+        <% end %>
     </body>
 
 </html>
