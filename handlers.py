@@ -30,13 +30,6 @@ class HomeHandler(BaseHandler):
             self.login_success = True
 
         posts = self.application.db.posts.find()
-
-        logging.error("posts start")
-        for post in posts:
-            logging.error(type(post))
-            logging.error(post['title'])
-        logging.error("posts end")
-
         self.render("home.html", posts = posts)
 
 
