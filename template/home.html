@@ -10,7 +10,7 @@
     
     <body>
         <div class="header">
-            <div style="float:right;width: auto">
+            <div style="float:right;">
             <p><span style="color:#ff0000"> {{handler.user_status}}</span> {% if not handler.login_success %}
                 <a href="/login">Login</a>
                 {% else %}
@@ -21,18 +21,19 @@
             </div>
         </div>
 
+        <p style="clear: both; overflow: hidden;"> </p>
+
         {% for post in posts %}
-         <p>{{post["title"]}}</p>
-         {% if handler.login_success %}
-         <div style="float:right;width: auto">
-            <a href="/delete/{{post["_id"]}}">delete</a> | 
-            <a href="/edit/{{post["_id"]}}">edit</a> 
-         </div>
-         
-         {% end %}
-         <p>{{ datetime.datetime.fromtimestamp( post["time"] ) }}</p>
-         <div>{% raw  post["content"] %}</div>
-         <hr>
+             <p>{{post["title"]}}</p>
+             {% if handler.login_success %}
+                 <div style="float:right;width: auto">
+                    <a href="/delete/{{post["_id"]}}">delete</a> | 
+                    <a href="/edit/{{post["_id"]}}">edit</a> 
+                 </div>
+             {% end %}
+                 <p>{{ datetime.datetime.fromtimestamp( post["time"] ) }}</p>
+                 <div>{% raw  post["content"] %}</div>
+                 <hr>
         {% end %}
 
         <div class="bottom">
