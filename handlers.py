@@ -54,6 +54,8 @@ class LoginHandler(BaseHandler):
                 self.redirect("/")
                 return
 
+        self.clear_cookie("authenticated_user")
+        self.clear_cookie("authenticated_time")
         self.redirect("/login?" + urllib.parse.urlencode({"login_failed": "true"}))
 
 
