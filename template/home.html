@@ -9,9 +9,9 @@
     
     <body>
         <p>{{handler.user_status}}</p>
-        <% if not handler.login_success %>
+        {% if not handler.login_success %}
         <a href="/login">Login</a>
-        <% end %>
+        {% end %}
     </body>
 
 </html>
