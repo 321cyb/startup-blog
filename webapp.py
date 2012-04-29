@@ -13,7 +13,7 @@ import pymongo
 
 class Application(tornado.web.Application):
         def __init__(self):
-                handlers = [
+                _handlers = [
                         ("/", handlers.HomeHandler),
                         ("/login", handlers.LoginHandler)
                    ]
@@ -22,7 +22,7 @@ class Application(tornado.web.Application):
                        static_path   = "static/",
                        debug         = True
                    )
-                tornado.web.Application.__init__(self, handlers, **settings)
+                tornado.web.Application.__init__(self, _handlers, **settings)
 
                 #initiate mongodb
                 conn = pymongo.Connection(setting.MONGODB_HOST, setting.MONGODB_PORT)
@@ -33,4 +33,4 @@ class Application(tornado.web.Application):
 if __name__ == "__main__":
         app = Application()
         app.listen(setting.LISTEN_PORT)
-        tornado.ioloop.IOLoop.Instance().start()
+        tornado.ioloop.IOLoop.instance().start()

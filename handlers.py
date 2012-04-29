@@ -10,7 +10,7 @@ import datetime
 import urllib.parse
 
 
-class BaseHandler(tornado.web.Requesthandler):
+class BaseHandler(tornado.web.RequestHandler):
     def verifyuser(self, user, time):
         hit = self.application.db.users.find_one({"user": user})
         if hit:
@@ -22,10 +22,10 @@ class BaseHandler(tornado.web.Requesthandler):
 
 class HomeHandler(BaseHandler):
     def get(self):
-        if verifyuser(self.get_cookie("authenticated_user"), self.get_cookie("authenticated_time")):
+        if self.verifyuser(self.get_cookie("authenticated_user"), self.get_cookie("authenticated_time")):
             self.render("home.html", user_status = self.get_cookie("authenticated_user"))
         else:
-            self.render("heme.html", user_status = "Not logged in.")
+            self.render("home.html", user_status = "Not logged in.")
 
 
 class LoginHandler(BaseHandler):
