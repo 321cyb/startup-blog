@@ -21,17 +21,22 @@ class BaseHandler(tornado.web.RequestHandler):
 
 
 class HomeHandler(BaseHandler):
+    login_success = False
+    user_status = "Not logged in."
     def get(self):
         if self.verifyuser(self.get_cookie("authenticated_user"), self.get_cookie("authenticated_time")):
-            self.render("home.html", user_status = self.get_cookie("authenticated_user"))
-        else:
-            self.render("home.html", user_status = "Not logged in.")
+            self.user_status = self.get_cookie("authenticated_user")
+
+        self.render("home.html")
 
 
 class LoginHandler(BaseHandler):
+    login_result = ""
     def get(self):
-        if self.get_argument("login_failed"):
-            self.render("login.html", login_result = "Login failed!")
+        login_failed = self.get_arguments("login_failed")
+        if len(login_failed) > 0:
+            self.login_result = "Login failed!"
+            self.render("login.html" )
         else:
             self.render("login.html")
 
@@ -48,6 +53,6 @@ class LoginHandler(BaseHandler):
                 self.redirect("/")
                 return
 
-        self.redirect("/login?" + urllib.parse.encode({"login_failed": "true"}))
+        self.redirect("/login?" + urllib.parse.urlencode({"login_failed": "true"}))
 
 
