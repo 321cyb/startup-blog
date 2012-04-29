@@ -1,8 +1,10 @@
 
 .header {
-    background-color: #dddddd;
     height: 20px;
     width: 100%;
+    margin-bottom: 1px;
+	background: white;
+	border-bottom: 1px solid #CCC;
 }
 
 .bottom {
@@ -15,6 +17,5 @@
 body {
     width: 1000px;
     height: 100%;
-    padding: 20px 0px 40px 0px;
     margin: auto;
 }
