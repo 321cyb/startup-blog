@@ -20,6 +20,7 @@ class Application(tornado.web.Application):
                         (r"/logout", handlers.LogoutHandler),
                         (r"/compose", handlers.ComposeHandler),
                         (r"/delete/(\w+)", handlers.DeleteHandler),
+                        (r"/edit/(\w+)", handlers.EditHandler),
                         (r"/page/(\d+)", handlers.PageHandler)
                    ]
                 settings = dict(

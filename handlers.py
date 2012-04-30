@@ -14,6 +14,7 @@ import markdown
 import pymongo
 from  bson.objectid import ObjectId
 
+
 class BaseHandler(tornado.web.RequestHandler):
     def verifyuser(self, user, time):
         hit = self.application.db.users.find_one({"user": user})
@@ -113,15 +114,34 @@ class ComposeHandler(BaseHandler):
         current_time = int(time.time())
 
         posts = self.application.db.posts
-        post = {"title": title, "content" : html, "time" : current_time}
+        post = {"title": title, "content" : content, "html" : html, "time" : current_time}
         posts.insert(post)
         self.redirect("/")
 
 
+class EditHandler(BaseHandler):
+    edit_result = ""
+    def get(self, edit_id):
+        post = self.application.db.posts.find_one({"_id": ObjectId(edit_id)})
+        self.render("edit.html", post = post)
+
+    def post(self, edit_id):
+        title = self.get_argument("title")
+        content = self.get_argument("content")
+        html = markdown.markdown(content)
+
+        try:
+            self.application.db.posts.update({"_id": ObjectId(edit_id)},
+                    {"$set": {"title": title, "content" : content, "html" : html}} )
+            self.redirect("/")
+        except e:
+            edit_result = "update failed."
+            self.redirect("/edit/" + edit_id)
+        
+
 class DeleteHandler(BaseHandler):
     def get(self, delete_id):
         posts = self.application.db.posts
-        logging.error("id is " + delete_id)
         posts.remove({"_id" : ObjectId(delete_id)})
         self.redirect("/")
 

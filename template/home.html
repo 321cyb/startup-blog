@@ -32,7 +32,7 @@
                  </div>
              {% end %}
                  <p>{{ datetime.datetime.fromtimestamp( post["time"] ) }}</p>
-                 <div>{% raw  post["content"] %}</div>
+                 <div>{% raw  post["html"] %}</div>
                  <hr>
         {% end %}
 

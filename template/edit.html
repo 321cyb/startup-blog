@@ -11,14 +11,14 @@
         <h2>
             Edit
         </h2>
-        <form action="/edit" method="post" enctype="multipart/form-data">
+        <form action="/edit/{{post["_id"]}}" method="post" enctype="multipart/form-data">
             Title:
             <br/>
-            <input type="text" name="title" value={{post.title}}>
+            <input type="text" name="title" value="{{ post["title"] }}">
             <br/>
             Content:
             <br/>
-            <textarea rows="30" cols="140" name="content" value={{post.title}}></textarea>
+            <textarea rows="30" cols="140" name="content" >{{ post["content"] }}</textarea>
             <p>
                 {{handler.edit_result}}
             </p>
