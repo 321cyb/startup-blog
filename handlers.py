@@ -53,7 +53,7 @@ class BaseHandler(tornado.web.RequestHandler):
                 posts = self.application.db.posts.find().sort("time", pymongo.DESCENDING).limit(setting.POSTS_PER_PAGE)
             else:
                 posts = self.application.db.posts.find().sort("time", pymongo.DESCENDING) \
-                        .skip((self.pagenumber - 1) * setting.POSTS_PER_PAGE) \
+                        .skip((pagenumber - 1) * setting.POSTS_PER_PAGE) \
                         .limit(setting.POSTS_PER_PAGE)
 
             this_page_posts = []
