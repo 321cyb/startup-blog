@@ -19,7 +19,7 @@ MONGODB_PORT =  27017
 COOKIE_EXPIRE_DAYS = 7
 
 #How many posts to show on one page
-POSTS_PER_PAGE = 2 
+POSTS_PER_PAGE = 5 
 
 
 COOKIE_SECRET = b"KyjvoXg/TEuXSG9y4/6RmGxzFFYE1E/siECQTPBafAY="

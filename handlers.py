@@ -87,7 +87,7 @@ class PageHandler(BaseHandler):
     def get(self, pagenumber): 
         if self.cookie_get_user():
             self.logged_in = True
-            self.user = self.get_secure_cookie("authenticated_user").decode()
+            self.user = self.cookie_get_user()
 
         current_page = int(pagenumber)
         (posts, page_list) = self.get_posts_of_page(current_page)
@@ -137,7 +137,7 @@ class ComposeHandler(BaseHandler):
             return
         else:
             self.logged_in = True
-            self.user = self.get_secure_cookie("authenticated_user").decode()
+            self.user = self.cookie_get_user()
 
  
         self.render("compose.html")
@@ -147,7 +147,7 @@ class ComposeHandler(BaseHandler):
         title = self.get_argument("title")
         content = self.get_argument("content")
         html = markdown.markdown(content)
-        author = self.cookie_get_user()
+        author = self.cookie_get_user().name
 
         current_time = int(time.time())
 
@@ -164,7 +164,7 @@ class EditHandler(BaseHandler):
             return
         else:
             self.logged_in = True
-            self.user = self.get_secure_cookie("authenticated_user").decode()
+            self.user = self.cookie_get_user()
 
         post = self.get_one_post(edit_id)
         self.render("edit.html", post = post)
