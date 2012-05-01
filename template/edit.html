@@ -11,16 +11,17 @@
         <h2>
             Edit
         </h2>
-        <form action="/edit/{{post["_id"]}}" method="post" enctype="multipart/form-data">
+        <a href="/delete/{{post["post_id"]}}" style="float:right">Delete</a>
+        <form action="/edit/{{post["post_id"]}}" method="post" enctype="multipart/form-data">
             Title:
             <br/>
             <input type="text" name="title" value="{{ post["title"] }}">
             <br/>
             Content:
             <br/>
-            <textarea rows="30" cols="140" name="content" >{{ post["content"] }}</textarea>
+            <textarea rows="30" cols="140" name="content" >{{ post["markdown"] }}</textarea>
             <p>
-                {{handler.edit_result}}
+                {{handler.result_message}}
             </p>
             <br/>
             <input type="submit" value="Save">
