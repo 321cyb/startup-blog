@@ -9,6 +9,7 @@ import hashlib
 import time
 import datetime
 import logging
+import functools
 import urllib.parse
 
 import markdown
@@ -72,23 +73,35 @@ class BaseHandler(tornado.web.RequestHandler):
         if user and self.application.db.users.find_one({"user": user.decode()}):
                 return front.User(user.decode())
 
-        return ""
+        return None
 
     def db_get_user(self, user_name):
         '''
         str -> front.User
         '''
+        #What if no such user exist? FIXME!
         user = self.application.db.users.find_one({"user": user_name})
         return front.User(user.user)
 
+    def redirect_if_not_logged_in(func):
+        @functools.wraps(func)
+        def handle(self, *args, **kwargs):
+            user = self.cookie_get_user()
+            if user:
+                self.logged_in = True
+                self.user = user
+            elif self.request.path != "/":
+                self.redirect("/")
+                return
+
+            func(self, *args, **kwargs)
+
+        return handle
 
 
 class PageHandler(BaseHandler):
+    @BaseHandler.redirect_if_not_logged_in
     def get(self, pagenumber): 
-        if self.cookie_get_user():
-            self.logged_in = True
-            self.user = self.cookie_get_user()
-
         current_page = int(pagenumber)
         (posts, page_list) = self.get_posts_of_page(current_page)
         self.render("home.html", posts = posts, pages= page_list, current_page = current_page)
@@ -131,15 +144,9 @@ class LogoutHandler(BaseHandler):
 
 
 class ComposeHandler(BaseHandler):
-    def get(self):
-        if not self.cookie_get_user():
-            self.redirect("/")
-            return
-        else:
-            self.logged_in = True
-            self.user = self.cookie_get_user()
 
- 
+    @BaseHandler.redirect_if_not_logged_in
+    def get(self):
         self.render("compose.html")
 
 
@@ -158,14 +165,9 @@ class ComposeHandler(BaseHandler):
 
 
 class EditHandler(BaseHandler):
-    def get(self, edit_id):
-        if not self.cookie_get_user():
-            self.redirect("/")
-            return
-        else:
-            self.logged_in = True
-            self.user = self.cookie_get_user()
 
+    @BaseHandler.redirect_if_not_logged_in
+    def get(self, edit_id):
         post = self.get_one_post(edit_id)
         self.render("edit.html", post = post)
 
@@ -184,11 +186,9 @@ class EditHandler(BaseHandler):
         
 
 class DeleteHandler(BaseHandler):
-    def get(self, delete_id):
-        if not self.cookie_get_user():
-            self.redirect("/")
-            return
 
+    @BaseHandler.redirect_if_not_logged_in
+    def get(self, delete_id):
         self.delete_one_post(delete_id)
         self.redirect("/")
 
