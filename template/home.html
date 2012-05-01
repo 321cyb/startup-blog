@@ -55,21 +55,19 @@
             </div>
            <div class="bottom">
                 {% for page in pages %}
-                    {% if page != 1%}
-                    <span>|</span>
-                    {% end %}
                     {% if page == current_page%}
                         <a href="/page/{{page}}"><span style="color:#ff0000">{{page}}</span></a>
                         {% else %}
                         <a href="/page/{{page}}">{{page}}</a>
                     {% end %}
+                    <span id="bottom_span">|</span>
                 {% end %}
             </div>
         </div>
 
         <div class="footer">
             <dl>
-                <dd>Copyright © 2012-2012, 321cyb.com,clybe.com All Rights Reserved</dd>
+                <dd>Copyright © 2012-2012, <a href="http://www.321cyb.com">321cyb.com</a>,<a href="http://www.clybe.com">clybe.com</a> All Rights Reserved</dd>
             </dl>
         </div>
     </body>
