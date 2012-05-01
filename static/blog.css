@@ -141,7 +141,6 @@ body {
 
 .page_content {
     width: 100%;
-    height: 100%;
     margin: 0px 0px 10px 0px;
     padding: 10px 0px 10px 20px;
     background-color: #ffffff;
@@ -162,32 +161,37 @@ body {
     font-size: 24px;
 }
 
-.page_content a {
+.page_content a{
     float: right;
-    font-size: 20px;
+    font-size:20px;
     padding: 2px 15px 2px 0px;
 }
 
 .blog_date {
-    font-size: 15px;
+    font-size:15px;
 }
 
 .blog_content {
-    font-size: 18px;
-    background-color: #F4F4EC;
+    font-size:18px;
+    background-color:#F4F4EC;
     padding: 20px;
     margin: 10px 15px 10px 0px;
 }
 
 .footer {
-    margin: 15px auto;
-    width: auto;
-    overflow: hidden;
-    padding: 3px 6px;
-    border-top: 0px solid #CCC;
-    font-size: 12px;
-    text-align: center;
-    clear: both;
+margin: 15px auto;
+width: auto;
+overflow: hidden;
+padding: 3px 6px;
+border-top: 0px solid #CCC;
+font-size: 12px;
+text-align: center;
+clear: both;    
+}
+
+.test{
+    height:1200px;
+    width:100%;
 }
 
 
