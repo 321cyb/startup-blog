@@ -4,6 +4,7 @@
 import setting
 
 
+import os.path
 import logging
 import tornado.web
 import tornado.ioloop
@@ -21,7 +22,9 @@ class Application(tornado.web.Application):
                         (r"/compose", handlers.ComposeHandler),
                         (r"/delete/(\w+)", handlers.DeleteHandler),
                         (r"/edit/(\w+)", handlers.EditHandler),
-                        (r"/page/(\d+)", handlers.PageHandler)
+                        (r"/page/(\d+)", handlers.PageHandler),
+                        (r"/dependencies/(.*)", tornado.web.StaticFileHandler, {"path": os.path.join(os.path.dirname(__file__), "dependencies")}),
+                        (r"/static/(.*)", tornado.web.StaticFileHandler, {"path": os.path.join(os.path.dirname(__file__), "static")})
                    ]
                 settings = dict(
                        template_path = "template/",
