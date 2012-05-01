@@ -120,6 +120,10 @@ class ComposeHandler(BaseHandler):
 class EditHandler(BaseHandler):
     edit_result = ""
     def get(self, edit_id):
+        if not self.verifyuser():
+            self.redirect("/")
+            return
+ 
         post = self.application.db.posts.find_one({"_id": ObjectId(edit_id)})
         self.render("edit.html", post = post)
 
@@ -141,7 +145,9 @@ class DeleteHandler(BaseHandler):
     def get(self, delete_id):
         if not self.verifyuser():
             self.redirect("/")
+            return
         posts = self.application.db.posts
         posts.remove({"_id" : ObjectId(delete_id)})
         self.redirect("/")
+
 
