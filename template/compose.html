@@ -5,6 +5,7 @@
 	<title>Compose new post</title>
 	<script type="text/javascript" src="../dependencies/showdown.js"></script>
 	<script type="text/javascript" src="../dependencies/showdown-gui.js"></script>
+    
 	<style type="text/css">
 		html,body {
 			margin:0;
@@ -244,6 +245,10 @@
 </head>
 
 <body>
+    <script type="text/javascript" src="../dependencies/highlight.js"></script>
+    <style type="text/css">
+        code[class]:after {      content: 'highlight: ' attr(class);      display: block; text-align: right;      font-size: smaller;      color: #CCC;      border-top: solid 1px;      padding-top: 0.5em;    }        code {      display: block;      background: #F0F0F0;    }        .string,    .function .title,    .class .title,     .tag .attribute .value,    .css .rules .value,    .cpp .preprocessor,    .ruby .symbol,    .vbscript .built_in {      color: #800;    }        .comment,    .python .decorator,    .java .annotation {      color: #888;    }        .number,    .regexp,    .javascript .literal {      color: #080;    }        .javadoc,    .ruby .string {      color: #88F;    }        .keyword,    .css .id,    .phpdoc,    .function .title,    .class .title,    .vbscript .built_in {      font-weight: bold;    }
+    </style>
 
 	<div id="pageHeader">
 		<h4><a href="http://daringfireball.net/projects/markdown/" title="The Markdown web site">Markdown</a></h4>

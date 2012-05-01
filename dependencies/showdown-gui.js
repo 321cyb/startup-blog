@@ -175,6 +175,14 @@ function convertText() {
 
 	lastOutput = text;
 
+ // Highlight syntax
+  selected_languages = LANGUAGES;
+  var pres = document.getElementsByTagName('pre');
+  for (var i = 0; i < pres.length; i++) {
+    if (pres[i].firstChild && pres[i].firstChild.nodeName == 'CODE')
+      initHighlight(pres[i].firstChild);
+  }//for
+
 	// restore proportional scroll positions
 	restoreScrollPositions();
 };
