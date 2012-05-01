@@ -2,6 +2,9 @@
     
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <script src="../dependencies/jquery-1.7.1.js" type="text/javascript">
+                                                                
+        </script>
         <link href="../static/blog.css" type="text/css" rel="stylesheet"/>
         <title>
             Startup Blog
@@ -9,32 +12,47 @@
     </head>
     
     <body>
-        <div class="header">
-            <div style="float:right;">
-            <p><span style="color:#ff0000"> {{handler.user_status}}</span> {% if not handler.login_success %}
-                <a href="/login">Login</a>
-                {% else %}
-                <a href="/logout">Logout</a> | 
-                <a href="/compose">Compose</a>
-                {% end %}
-            </p>
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="container">
+                    {% if not handler.login_success %}
+                    <span class="error">{{handler.user_status}}</span>
+                    {% else %}
+                    <a href="/home" class="user">{{handler.user_status}}</a>
+                    {% end %}
+
+                    <ul class="nav">
+                        {% if not handler.login_success %}
+                        <a href="/login">Login</a>
+                        {% else %}
+                        <a href="/logout">Logout</a> | 
+                        <a href="/compose">Compose</a>
+                        {% end %}
+                    </ul>
+                </div>
             </div>
         </div>
 
-        <p style="clear: both; overflow: hidden;"> </p>
+        <div class="content">
+            <div class="page_header">
+              <p>Startup－Blog</p> 
+            </div >
 
-        {% for post in posts %}
-             <p>{{post["title"]}}</p>
-             {% if handler.login_success %}
-                 <div style="float:right;width: auto">
-                    <a href="/delete/{{post["_id"]}}">delete</a> | 
-                    <a href="/edit/{{post["_id"]}}">edit</a> 
-                 </div>
-             {% end %}
-                 <p>{{ datetime.datetime.fromtimestamp( post["time"] ) }}</p>
-                 <div>{% raw  post["html"] %}</div>
-                 <hr>
-        {% end %}
+            {% for post in posts %}
+            <div class="page_content">
+                <div>
+                    <span class="blog_title">{{post["title"]}}</span>
+                    {% if handler.login_success %}
+                    <a href="/edit/{{post["_id"]}}">Edit</a>
+                    {% end %}
+                </div>
+                
+                <p class="blog_content">{% raw  post["html"] %}</p>
+                <span class="blog_date">{{ datetime.datetime.fromtimestamp( post["time"] ) }}</span>
+                <div class="dashline"></div>
+            </div>
+            {% end }
+        </div>
 
         <div class="bottom">
             {% for page in pages %}
