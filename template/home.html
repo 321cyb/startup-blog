@@ -42,14 +42,14 @@
             <div class="page_content">
                 {% for post in posts %}
                 <div>
-                    <span class="blog_title">{{post["title"]}}</span>
+                    <span class="blog_title">{{post.title}}</span>
                     {% if handler.logged_in %}
-                    <a href="/edit/{{post["post_id"]}}">Edit</a>
+                    <a href="/edit/{{post.post_id]}}">Edit</a>
                     {% end %}
                 </div>
                 
-                <div class="blog_content">{% raw  post["html"] %}</div>
-                <span class="blog_date">{{ datetime.datetime.fromtimestamp( post["mtime"] ) }}</span>
+                <div class="blog_content">{% raw  post.html %}</div>
+                <span class="blog_date">{{ datetime.datetime.fromtimestamp( post.mtime ) }}</span>
                 <div class="dashline"></div>
                 {% end %}
             </div>
