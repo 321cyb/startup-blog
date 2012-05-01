@@ -26,6 +26,7 @@ class Application(tornado.web.Application):
                 settings = dict(
                        template_path = "template/",
                        static_path   = "static/",
+                       cookie_secret = setting.COOKIE_SECRET,
                        debug         = True
                    )
                 tornado.web.Application.__init__(self, _handlers, **settings)

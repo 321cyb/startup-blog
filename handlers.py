@@ -16,10 +16,12 @@ from  bson.objectid import ObjectId
 
 
 class BaseHandler(tornado.web.RequestHandler):
-    def verifyuser(self, user, time):
-        hit = self.application.db.users.find_one({"user": user})
-        if hit:
-            if datetime.datetime.now() - datetime.datetime.fromtimestamp(float(time))  < datetime.timedelta(days = setting.COOKIE_EXPIRE_DAYS):
+    user_status = "Not logged in"
+    def verifyuser(self):
+        user = self.get_secure_cookie("authenticated_user")
+        if user:
+            hit = self.application.db.users.find_one({"user": user.decode()})
+            if hit:
                 return True
 
         return False
@@ -28,7 +30,6 @@ class BaseHandler(tornado.web.RequestHandler):
 class PageHandler(BaseHandler):
     current_page = 0
     login_success = False
-    user_status = "Not logged in."    
     
     def generate_pages(self, page_list):
         left_most = self.current_page - 4  if (self.current_page - 4) >= 1 else 1
@@ -36,8 +37,8 @@ class PageHandler(BaseHandler):
         return list(range(left_most, right_most + 1))
 
     def get(self, pagenumber): 
-        if self.verifyuser(self.get_cookie("authenticated_user"), self.get_cookie("authenticated_time")):
-            self.user_status = self.get_cookie("authenticated_user")
+        if self.verifyuser():
+            self.user_status = self.get_secure_cookie("authenticated_user").decode()
             self.login_success = True
 
         self.current_page = int(pagenumber)
@@ -82,21 +83,18 @@ class LoginHandler(BaseHandler):
         users = self.application.db.users
         hit = users.find_one({"user": user})
         if hit:
-            if hit["password"] == hashlib.md5(password.encode()).hexdigest():
-                self.set_cookie("authenticated_user", user)
-                self.set_cookie("authenticated_time",str(time.time()))
+            if hit["password"] == hashlib.sha256(password.encode() + hit["salt"]).hexdigest():
+                self.set_secure_cookie("authenticated_user", user, expires_days = setting.COOKIE_EXPIRE_DAYS)
                 self.redirect("/")
                 return
 
         self.clear_cookie("authenticated_user")
-        self.clear_cookie("authenticated_time")
         self.redirect("/login?" + urllib.parse.urlencode({"login_failed": "true"}))
 
 
 class LogoutHandler(BaseHandler):
     def get(self):
         self.clear_cookie("authenticated_user")
-        self.clear_cookie("authenticated_time")
         self.redirect("/")
 
 
@@ -135,12 +133,14 @@ class EditHandler(BaseHandler):
                     {"$set": {"title": title, "content" : content, "html" : html}} )
             self.redirect("/")
         except e:
-            edit_result = "update failed."
+            self.edit_result = "update failed."
             self.redirect("/edit/" + edit_id)
         
 
 class DeleteHandler(BaseHandler):
     def get(self, delete_id):
+        if not self.verifyuser():
+            self.redirect("/")
         posts = self.application.db.posts
         posts.remove({"_id" : ObjectId(delete_id)})
         self.redirect("/")
