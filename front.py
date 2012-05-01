@@ -4,7 +4,7 @@
 #Date: 
 
 class Post():
-        post_id = 0
+        post_id = ""
         title = ""
         mtime = 0 #timestamp
         author = ""

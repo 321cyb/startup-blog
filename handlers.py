@@ -20,6 +20,7 @@ class BaseHandler(tornado.web.RequestHandler):
     user = front.User("")
     result_message = ""
     logged_in = False
+
     def get_one_post(self, post_id):
         '''
         post_id ->  str type
@@ -27,10 +28,11 @@ class BaseHandler(tornado.web.RequestHandler):
         '''
         post = self.application.db.posts.find_one({"_id": ObjectId(post_id)})
         return front.Post(post_id, post["title"], post["author"], post["time"], post["markdown"], post["html"])
+
     def delete_one_post(self, post_id):
         posts = self.application.db.posts
         posts.remove({"_id" : ObjectId(post_id)})
-  
+ 
     def generate_pages(self, page_list, current_page):
         left_most = current_page - 4  if (current_page - 4) >= 1 else 1
         right_most = current_page + 4 if (current_page + 4) <= page_list[-1] else page_list[-1]
@@ -56,29 +58,36 @@ class BaseHandler(tornado.web.RequestHandler):
 
             this_page_posts = []
             for post in posts:
-                this_page_posts.append(front.Blog(post["_id"], post["title"], post["author"], post["time"], post["markdown"], post["html"]))
+                this_page_posts.append(front.Post(post["_id"], post["title"], post["author"], post["time"], post["markdown"], post["html"]))
 
             return (this_page_posts, page_list)
         else:
             return ([], [])
 
-
-    def get_user(self):
+    def cookie_get_user(self):
+        '''
+        str
+        '''
         user = self.get_secure_cookie("authenticated_user")
-        if user:
-            if self.application.db.users.find_one({"user": user.decode()}):
-                return user.decode()
+        if user and self.application.db.users.find_one({"user": user.decode()}):
+                return front.User(user.decode())
 
-        return None
+        return ""
+
+    def db_get_user(self, user_name):
+        '''
+        str -> front.User
+        '''
+        user = self.application.db.users.find_one({"user": user_name})
+        return front.User(user.user)
+
 
 
 class PageHandler(BaseHandler):
-    login_success = False
-   
     def get(self, pagenumber): 
-        if self.get_user():
-            self.user_status = self.get_secure_cookie("authenticated_user").decode()
-            self.login_success = True
+        if self.cookie_get_user():
+            self.logged_in = True
+            self.user = self.get_secure_cookie("authenticated_user").decode()
 
         current_page = int(pagenumber)
         (posts, page_list) = self.get_posts_of_page(current_page)
@@ -92,11 +101,10 @@ class HomeHandler(PageHandler):
 
 
 class LoginHandler(BaseHandler):
-    login_result = ""
     def get(self):
         login_failed = self.get_arguments("login_failed")
         if len(login_failed) > 0:
-            self.login_result = "Login failed!"
+            self.result_message = "Login failed!"
             self.render("login.html" )
         else:
             self.render("login.html")
@@ -107,8 +115,7 @@ class LoginHandler(BaseHandler):
 
         users = self.application.db.users
         hit = users.find_one({"user": user})
-        if hit:
-            if hit["password"] == hashlib.sha256(password.encode() + hit["salt"]).hexdigest():
+        if hit and hit["password"] == hashlib.sha256(password.encode() + hit["salt"]).hexdigest():
                 self.set_secure_cookie("authenticated_user", user, expires_days = setting.COOKIE_EXPIRE_DAYS)
                 self.redirect("/")
                 return
@@ -124,11 +131,14 @@ class LogoutHandler(BaseHandler):
 
 
 class ComposeHandler(BaseHandler):
-    compose_result = ""
     def get(self):
-        if not self.get_user():
+        if not self.cookie_get_user():
             self.redirect("/")
             return
+        else:
+            self.logged_in = True
+            self.user = self.get_secure_cookie("authenticated_user").decode()
+
  
         self.render("compose.html")
 
@@ -137,7 +147,7 @@ class ComposeHandler(BaseHandler):
         title = self.get_argument("title")
         content = self.get_argument("content")
         html = markdown.markdown(content)
-        author = self.get_user()
+        author = self.cookie_get_user()
 
         current_time = int(time.time())
 
@@ -148,12 +158,14 @@ class ComposeHandler(BaseHandler):
 
 
 class EditHandler(BaseHandler):
-    edit_result = ""
     def get(self, edit_id):
-        if not self.get_user():
+        if not self.cookie_get_user():
             self.redirect("/")
             return
- 
+        else:
+            self.logged_in = True
+            self.user = self.get_secure_cookie("authenticated_user").decode()
+
         post = self.get_one_post(edit_id)
         self.render("edit.html", post = post)
 
@@ -167,13 +179,13 @@ class EditHandler(BaseHandler):
                     {"$set": {"title": title, "markdown" : content, "html" : html}} )
             self.redirect("/")
         except e:
-            self.edit_result = "update failed." #Wow, this will never show up. fix later.
+            edit_result = "update failed." #Wow, this will never show up. fix later.
             self.redirect("/edit/" + edit_id)
         
 
 class DeleteHandler(BaseHandler):
     def get(self, delete_id):
-        if not self.get_user():
+        if not self.cookie_get_user():
             self.redirect("/")
             return
 
