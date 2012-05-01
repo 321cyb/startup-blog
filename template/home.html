@@ -47,11 +47,11 @@
                     {% end %}
                 </div>
                 
-                <p class="blog_content">{% raw  post["html"] %}</p>
+                <div class="blog_content">{% raw  post["html"] %}</div>
                 <span class="blog_date">{{ datetime.datetime.fromtimestamp( post["time"] ) }}</span>
                 <div class="dashline"></div>
             </div>
-            {% end }
+            {% end %}
         </div>
 
         <div class="bottom">
