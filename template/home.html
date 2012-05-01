@@ -15,14 +15,14 @@
         <div class="navbar">
             <div class="navbar-inner">
                 <div class="container">
-                    {% if not handler.login_success %}
-                    <span class="error">{{handler.user_status}}</span>
+                    {% if not handler.logged_in %}
+                    <span class="error">Not logged in </span>
                     {% else %}
-                    <a href="/home" class="user">{{handler.user_status}}</a>
+                    <a href="/home" class="user">{{handler.user.name}}</a>
                     {% end %}
 
                     <ul class="nav">
-                        {% if not handler.login_success %}
+                        {% if not handler.logged_in %}
                         <a href="/login">Login</a>
                         {% else %}
                         <a href="/logout">Logout</a> | 
@@ -38,20 +38,22 @@
               <p>Startup－Blog</p> 
             </div >
 
-            {% for post in posts %}
+           
             <div class="page_content">
+                {% for post in posts %}
                 <div>
                     <span class="blog_title">{{post["title"]}}</span>
-                    {% if handler.login_success %}
-                    <a href="/edit/{{post["_id"]}}">Edit</a>
+                    {% if handler.logged_in %}
+                    <a href="/edit/{{post["post_id"]}}">Edit</a>
                     {% end %}
                 </div>
                 
                 <div class="blog_content">{% raw  post["html"] %}</div>
-                <span class="blog_date">{{ datetime.datetime.fromtimestamp( post["time"] ) }}</span>
+                <span class="blog_date">{{ datetime.datetime.fromtimestamp( post["mtime"] ) }}</span>
                 <div class="dashline"></div>
+                {% end %}
             </div>
-            {% end %}
+           
         </div>
 
         <div class="bottom">
