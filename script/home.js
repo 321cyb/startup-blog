@@ -1,2 +1,9 @@
 $(document).ready(function() {
-    alert("HelloWorld");
+    
+})
+
+
+
+function message(){
+	alert("HelloWorld")
+}
