@@ -110,18 +110,14 @@ class PageHandler(BaseHandler):
 
 class HomeHandler(PageHandler):
     def get(self):
+        login_failed = self.get_arguments("login_failed")
+        if len(login_failed) > 0:
+            self.result_message = "Login failed!"
+ 
         return PageHandler.get(self, 1)
 
 
 class LoginHandler(BaseHandler):
-    def get(self):
-        login_failed = self.get_arguments("login_failed")
-        if len(login_failed) > 0:
-            self.result_message = "Login failed!"
-            self.render("login.html" )
-        else:
-            self.render("login.html")
-
     def post(self):
         user = self.get_argument("username")
         password = self.get_argument("password")
@@ -134,7 +130,7 @@ class LoginHandler(BaseHandler):
                 return
 
         self.clear_cookie("authenticated_user")
-        self.redirect("/login?" + urllib.parse.urlencode({"login_failed": "true"}))
+        self.redirect("/?" + urllib.parse.urlencode({"login_failed": "true"}))
 
 
 class LogoutHandler(BaseHandler):
