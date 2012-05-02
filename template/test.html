@@ -1,9 +1,13 @@
+<!DOCTYPE html>
 <html>
     
     <head>
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8" />
         <script src="../dependencies/jquery-1.7.1.js" type="text/javascript">
-                                                                
+                                                                                        
+        </script>
+        <script src="../script/home.js" type="text/javascript">
+                                                                                        
         </script>
         <link href="../static/blog.css" type="text/css" rel="stylesheet" />
         <title>
@@ -11,40 +15,62 @@
         </title>
     </head>
     
-    <body>
+    <body onload="message()">
+        <label>
+            Runner:
+            <input name="name" placeholder="First and last name" required>
+        </label>
         <div class="navbar">
             <div class="navbar-inner">
                 <div class="container">
                     <a href="/home" class="user">Clybe</a>
-                    <span class="error">Clybe</span>
+                    <span class="error">
+                        Clybe
+                    </span>
                     <ul class="nav">
-                        <li><p>test1</p></li>
-                        <li><a href="">test2</a></li>
-                        <li><a href="">test3</a></li>
+                        <li>
+                            <p>
+                                test1
+                            </p>
+                        </li>
+                        <li>
+                            <a href="">test2</a>
+                        </li>
+                        <li>
+                            <a href="">test3</a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
-
         <div class="content">
             <div class="page_header">
-              <p>Startup－Blog</p> 
-            </div >
+                <p>
+                    Startup－Blog
+                </p>
+            </div>
             <div class="page_content">
                 <div>
-                    <span class="blog_title">Title</span> 
+                    <span class="blog_title">
+                        Title
+                    </span>
                     <a href="">Edit</a>
                 </div>
-                
-                <p class="blog_content">Content</p>
-                <span class="blog_date">date</span>
-                <div class="dashline"></div>
+                <p class="blog_content">
+                    Content
+                </p>
+                <span class="blog_date">
+                    date
+                </span>
+                <div class="dashline">
+                </div>
             </div>
         </div>
-
         <div class="footer">
             <dl>
-                <dd>版权所有</dd>
+                <dd>
+                    版权所有
+                </dd>
             </dl>
         </div>
     </body>
