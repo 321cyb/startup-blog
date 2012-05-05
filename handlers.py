@@ -135,7 +135,7 @@ class LoginHandler(BaseHandler):
 
 class WeiboLoginHandler(BaseHandler, WeiboMixin):
      def create_user_if_necessary(self, user):
-         if not self.application.db.users.find_one({"provider": "weibo", "uid": str(user["id"]})):
+         if not self.application.db.users.find_one({"provider": "weibo", "uid": str(user["id"])}):
              self.application.db.users.insert({"name":user["screen_name"], "provider": "weibo", "uid": str(user["id"]), "password": "", "salt": "", 
                   "access_token": user["access_token"]})
 
