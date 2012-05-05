@@ -31,3 +31,4 @@ pip-log.txt
 __pycache__
 setting.py
 template/test.html
+log/*
