@@ -20,6 +20,5 @@ function enable_highlite() {
     for (var i = 0; i < pres.length; i++) {
         if (pres[i].firstChild && pres[i].firstChild.nodeName == 'CODE') {
         	initHighlight(pres[i].firstChild);
-        	pres[i].firstChild.nodeName.text＝"test test";
     }
 }

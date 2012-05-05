@@ -17,7 +17,7 @@ textarea {
     left: 2.5%;
 }
 
-#leftContainer input {
+#input_title {
     min-width: 300px
 }
 
@@ -42,7 +42,6 @@ textarea {
     padding-left: 4px;
  /* pane padding */
     width: 100%;
-    border: none;
     background-color: #eee;
     display: block;
     border: 1px solid #888;
@@ -110,6 +109,10 @@ div.pane {
     color: #999;
     position: absolute;
     right: 1em;
+}
+
+#convertTextButton {
+    display: none;
 }
 
 .string,

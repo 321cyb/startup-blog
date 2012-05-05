@@ -238,6 +238,7 @@ function onInput() {
 	}
 
 	if (convertTextSetting.value != "manual") {
+		convertTextButton.style.display="none";
 		var timeUntilConvertText = 0;
 		if (convertTextSetting.value == "delayed") {
 			// make timer adaptive
@@ -251,7 +252,10 @@ function onInput() {
 		// Even if we're updating every keystroke, use a timer at 0.
 		// This gives the browser time to handle other events.
 		convertTextTimer = window.setTimeout(convertText,timeUntilConvertText);
+	}else{
+		convertTextButton.style.display="inline";
 	}
+
 }
 
 

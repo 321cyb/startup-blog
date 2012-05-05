@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
-    
     <head>
         <meta charset="UTF-8" />
         <script src="../dependencies/jquery-1.7.1.js" type="text/javascript">
-                                                                                
+                                                                                        
         </script>
-
-        <script type="text/javascript" src="../dependencies/highlight.js">
-                                                                
+        <script type="text/javascript" src="../dependencies/highlight.pack.js">
+                                                                        
         </script>
-
         <script src="../script/home.js" type="text/javascript">
-
-        </script>        
-
+                
+        </script>
+        <script type="text/javascript">
+        hljs.initHighlightingOnLoad();
+        </script>
         <link href="../static/blog.css" type="text/css" rel="stylesheet" />
         <link href="../static/compose.css" type="text/css" rel="stylesheet" />
+        <link href="../static/default.css" type="text/css" rel="stylesheet" />
         <title>
             Startup Blog
         </title>
@@ -68,10 +68,10 @@
                         {{post.title}}
                     </span>
                     {% if handler.logged_in %}
-                    <a href="/edit/{{post.post_id}}">Edit</a>
+                    <a href="/edit/{{post.post_id}}" id="link_edit">Edit</a>
                     {% end %}
                 </div>
-                <div class="blog_content" onload="enable_highlite()">
+                <div class="blog_content">
                     {% raw post.html %}
                 </div>
                 <span class="blog_date">

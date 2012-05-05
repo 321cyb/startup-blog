@@ -174,7 +174,7 @@ body {
     font-size: 24px;
 }
 
-.page_content a {
+#link_edit {
     float: right;
     font-size: 20px;
     padding: 2px 15px 2px 0px;
@@ -219,14 +219,17 @@ code[class]:after {
 
 code {
     display: block;
-    background: #F0F0F0;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
 }
 
-.custom_button{
-    height:90px;
-    width:100px;
-    text-align:center;
-    font-size:25px;
+.custom_button {
+    height:35px;
+    width:70px;
+    text-align: center;
+    font-size: 16px;
 }
 
 
