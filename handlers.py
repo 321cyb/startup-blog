@@ -147,6 +147,7 @@ class WeiboLoginHandler(BaseHandler, WeiboMixin):
                                               extra_params={"response_type": "code"})
      def _on_login(self, user):
          logging.error(user)
+         self.redirect("/")
          self.finish()
 
 
