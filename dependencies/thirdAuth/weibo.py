@@ -2,7 +2,10 @@
 # coding: utf-8
 
 import logging
-import urllib
+try:
+    from urllib import urlencode
+except ImportError:
+    from urllib.parse import urlencode
 import itertools
 
 from tornado import escape
@@ -91,7 +94,7 @@ class WeiboMixin(OAuth2Mixin):
         http.fetch(
             self._oauth_request_token_url(**args),
             method="POST",
-            body=urllib.urlencode(post_args),
+            body=urlencode(post_args),
             callback=self.async_callback(self._on_access_token, redirect_uri,
                 client_id, client_secret, callback, fields))
 
@@ -210,11 +213,11 @@ class WeiboMixin(OAuth2Mixin):
             all_args["access_token"] = access_token
             all_args.update(args)
             all_args.update(post_args or {})
-        if all_args: url += "?" + urllib.urlencode(all_args)
+        if all_args: url += "?" + urlencode(all_args)
         callback = self.async_callback(self._on_weibo_request, callback)
         http = httpclient.AsyncHTTPClient()
         if post_args is not None:
-            http.fetch(url, method="POST", body=urllib.urlencode(post_args),
+            http.fetch(url, method="POST", body=urlencode(post_args),
                 callback=callback)
         else:
             http.fetch(url, callback=callback)
@@ -242,7 +245,7 @@ class WeiboMixin(OAuth2Mixin):
         args = {
             "access_token": access_token
         }
-        url += "?" + urllib.urlencode(args)
+        url += "?" + urlencode(args)
         http = httpclient.AsyncHTTPClient()
         http.fetch(url, method="POST", body=str(form),
             callback=self.async_callback(self._on_weibo_request, callback),
