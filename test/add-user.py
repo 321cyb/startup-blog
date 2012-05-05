@@ -19,7 +19,7 @@ if __name__ == "__main__":
                 c = pymongo.Connection("localhost", 27017) #This is default
                 salt = os.urandom(8)
                 password = hashlib.sha256(passwd.encode() + salt).hexdigest()
-                c.blog.users.insert({"user": user, "password": password, "salt": salt})
+                c.blog.users.insert({"name": user, "provider": "", "uid": user, "password": password, "salt": salt, "access_token": ""})
 
          
 

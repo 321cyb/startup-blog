@@ -14,8 +14,15 @@ from  bson.objectid import ObjectId
 
 import setting
 import front
+import utils
 from thirdAuth.weibo import WeiboMixin
 
+
+#In db, every post entry has these fields:
+#title, author, time, markdown, html
+
+#In db, every user has these fields:
+#name, provider, uid, password, salt, access_token
 
 class BaseHandler(tornado.web.RequestHandler):
     user = front.User("")
@@ -70,18 +77,11 @@ class BaseHandler(tornado.web.RequestHandler):
         str
         '''
         user = self.get_secure_cookie("authenticated_user")
-        if user and self.application.db.users.find_one({"user": user.decode()}):
-                return front.User(user.decode())
+        if user:
+            hit = self.application.db.users.find_one(utils.provider_and_uid(user.decode())):
+                return front.User(hit["name"], hit["provider"], hit["uid"])
 
         return None
-
-    def db_get_user(self, user_name):
-        '''
-        str -> front.User
-        '''
-        #What if no such user exist? FIXME!
-        user = self.application.db.users.find_one({"user": user_name})
-        return front.User(user.user)
 
     def redirect_if_not_logged_in(func):
         @functools.wraps(func)
@@ -123,7 +123,7 @@ class LoginHandler(BaseHandler):
         password = self.get_argument("password")
 
         users = self.application.db.users
-        hit = users.find_one({"user": user})
+        hit = users.find_one({"name": user, "provider": ""})
         if hit and hit["password"] == hashlib.sha256(password.encode() + hit["salt"]).hexdigest():
                 self.set_secure_cookie("authenticated_user", user, expires_days = setting.COOKIE_EXPIRE_DAYS)
                 self.redirect("/")
@@ -133,6 +133,11 @@ class LoginHandler(BaseHandler):
         self.redirect("/?" + urllib.parse.urlencode({"login_failed": "true"}))
 
 class WeiboLoginHandler(BaseHandler, WeiboMixin):
+     def create_user_if_necessary(self, user):
+         if not self.application.db.users.find_one({"provider": "weibo", "uid": user["id"]}):
+             self.application.db.users.insert({"name":user["screen_name"], "provider": "weibo", "uid": user["id"], "password": "", "salt": "", 
+                  "access_token": user["acess_token"]})
+
      @tornado.web.asynchronous
      def get(self):
           if self.get_argument("code", False):
@@ -146,7 +151,8 @@ class WeiboLoginHandler(BaseHandler, WeiboMixin):
                                               client_id=setting.WEIBO_APPKEY,
                                               extra_params={"response_type": "code"})
      def _on_login(self, user):
-         logging.error(user)
+         create_user_if_necessary(user)
+         self.set_secure_cookie("authenticated_user", "weibo\x00" + user.id, expires_days = setting.COOKIE_EXPIRE_DAYS)
          self.redirect("/")
          self.finish()
 

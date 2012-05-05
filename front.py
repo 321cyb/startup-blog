@@ -21,13 +21,19 @@ class Post():
 
 
 class User():
-        name = ""
+        name = "" #This is what showes on the web page 
+        provider = "" #"douban" or "weibo", "" means local site.
+        #This associates with provider, and this should not change when name changes.
+        #For local user, uid should equal to name.
+        uid = "" 
         email = ""
         qq = ""
         gtalk = ""
 
-        def __init__(self, name, email = "", qq = "", gtalk = ""):
+        def __init__(self,  name = "", provider = "", uid = "", email = "", qq = "", gtalk = ""):
                 self.name = name
+                self.provider = provider
+                self.uid = uid
                 self.email = email
                 self.qq = qq
                 self.gtalk = gtalk
