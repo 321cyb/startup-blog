@@ -135,8 +135,8 @@ class LoginHandler(BaseHandler):
 
 class WeiboLoginHandler(BaseHandler, WeiboMixin):
      def create_user_if_necessary(self, user):
-         if not self.application.db.users.find_one({"provider": "weibo", "uid": user["id"]}):
-             self.application.db.users.insert({"name":user["screen_name"], "provider": "weibo", "uid": user["id"], "password": "", "salt": "", 
+         if not self.application.db.users.find_one({"provider": "weibo", "uid": str(user["id"]})):
+             self.application.db.users.insert({"name":user["screen_name"], "provider": "weibo", "uid": str(user["id"]), "password": "", "salt": "", 
                   "access_token": user["access_token"]})
 
      @tornado.web.asynchronous
@@ -153,7 +153,7 @@ class WeiboLoginHandler(BaseHandler, WeiboMixin):
                                               extra_params={"response_type": "code"})
      def _on_login(self, user):
          self.create_user_if_necessary(user)
-         self.set_secure_cookie("authenticated_user", "weibo\x00" + user["id"], expires_days = setting.COOKIE_EXPIRE_DAYS)
+         self.set_secure_cookie("authenticated_user", "weibo\x00" + str(user["id"]), expires_days = setting.COOKIE_EXPIRE_DAYS)
          self.redirect("/")
          self.finish()
 
