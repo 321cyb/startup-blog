@@ -136,12 +136,6 @@ textarea {
     display: none;
 }
 
-#syntaxPane {
-    background-color: #e6dede;
-    background-color: #f7ecec;
-    display: none;
-}
-
 div.pane {
     overflow: auto;
 }

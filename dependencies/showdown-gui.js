@@ -164,14 +164,11 @@ function convertText() {
 	// save proportional scroll positions
 	saveScrollPositions();
 
+
+	// 12/05/05,ignore the paneSetting.value, clybe update, 
 	// update right pane
-	if (paneSetting.value == "outputPane") {
-		// the output pane is selected
-		outputPane.value = text;
-	} else if (paneSetting.value == "previewPane") {
-		// the preview pane is selected
-		previewPane.innerHTML = text;
-	}
+	outputPane.value = text;
+	previewPane.innerHTML = text;
 
 	lastOutput = text;
 
