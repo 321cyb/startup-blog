@@ -131,6 +131,23 @@ class LoginHandler(BaseHandler):
         self.clear_cookie("authenticated_user")
         self.redirect("/?" + urllib.parse.urlencode({"login_failed": "true"}))
 
+class WeiboLoginHandler(BaseHandler, WeiboMixin):
+     @tornado.web.asynchronous
+     def get(self):
+          if self.get_argument("code", False):
+              self.get_authenticated_user( redirect_uri='/auth/weibo/',
+                            client_id=setting.WEIBO_APPKEY,
+                            client_secret=self.settings.WEIBO_APP_SECRET,
+                            code=self.get_argument("code"),
+                            callback=self.async_callback(self._on_login))
+          else:
+              self.authorize_redirect(redirect_uri='/auth/weibo/',
+                                              client_id=self.settings.WEIBO_APPKEY,
+                                              extra_params={"response_type": "code"})
+     def _on_login(self, user):
+         logging.error(user)
+         self.finish()
+
 
 class LogoutHandler(BaseHandler):
     def get(self):
