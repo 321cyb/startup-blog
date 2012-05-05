@@ -10,18 +10,18 @@ a:hover {
 
 html {
     background-color: #eee;
+    font-size: 62.5%;
 }
 
 body {
     margin: 0;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 13px;
-    line-height: 18px;
+    font-size: 1.5em;
     color: #333;
+    font-family: sans-serif;
+    line-height: 22px;
 }
 
 .nav label {
-
     color: #ffffff;
 }
 
@@ -152,8 +152,8 @@ body {
 
 .page_content {
     width: 100%;
-    height:auto;
-    min-height:550px;
+    height: auto;
+    min-height: 550px;
     margin: 0px 0px 10px 0px;
     padding: 10px 0px 10px 20px;
     background-color: #ffffff;
@@ -187,7 +187,7 @@ body {
 .blog_content {
     font-size: 18px;
     background-color: #F4F4EC;
-    padding: 20px;
+    padding: 10px;
     margin: 10px 15px 10px 0px;
 }
 
@@ -205,6 +205,28 @@ body {
 .test {
     height: 1200px;
     width: 100%;
+}
+
+code[class]:after {
+    content: 'highlight: ' attr(class);
+    display: block;
+    text-align: right;
+    font-size: smaller;
+    color: #CCC;
+    border-top: solid 1px;
+    padding-top: 0.5em;
+}
+
+code {
+    display: block;
+    background: #F0F0F0;
+}
+
+.custom_button{
+    height:90px;
+    width:100px;
+    text-align:center;
+    font-size:25px;
 }
 
 

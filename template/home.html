@@ -6,7 +6,17 @@
         <script src="../dependencies/jquery-1.7.1.js" type="text/javascript">
                                                                                 
         </script>
+
+        <script type="text/javascript" src="../dependencies/highlight.js">
+                                                                
+        </script>
+
+        <script src="../script/home.js" type="text/javascript">
+
+        </script>        
+
         <link href="../static/blog.css" type="text/css" rel="stylesheet" />
+        <link href="../static/compose.css" type="text/css" rel="stylesheet" />
         <title>
             Startup Blog
         </title>
@@ -61,7 +71,7 @@
                     <a href="/edit/{{post.post_id}}">Edit</a>
                     {% end %}
                 </div>
-                <div class="blog_content">
+                <div class="blog_content" onload="enable_highlite()">
                     {% raw post.html %}
                 </div>
                 <span class="blog_date">
@@ -86,7 +96,7 @@
         <div class="footer">
             <dl>
                 <dd>
-                    Copyright © 2012-2012,
+                    Copyright © 2012,
                     <a href="http://www.321cyb.com">321cyb.com</a>
                     ,
                     <a href="http://www.clybe.com">clybe.com</a>

@@ -13,3 +13,13 @@ function hivelogic_enkoder() {
     var i, c, x;
     while (eval(kode));
 }
+
+
+function enable_highlite() {
+    var pres = document.getElementsByTagName('pre');
+    for (var i = 0; i < pres.length; i++) {
+        if (pres[i].firstChild && pres[i].firstChild.nodeName == 'CODE') {
+        	initHighlight(pres[i].firstChild);
+        	pres[i].firstChild.nodeName.text＝"test test";
+    }
+}

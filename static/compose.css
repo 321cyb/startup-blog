@@ -1,54 +1,6 @@
 
-html,body {
-    margin: 0;
-    padding: 0;
-    font-family: Helvetica, Arial, Verdana,
-            sans-serif;
-    font-size: 90%;
-    background-color: #e0d8d8;
-}
-
-html {
-    overflow: hidden;
-}
-
 textarea {
     font-family: monospace;
-}
-
-#pageHeader {
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    margin-bottom: 0;
-    margin-top: 0.4em;
-    color: #766;
-}
-
-#pageHeader h1 {
-    font-size: 3em;
-}
-
-#pageHeader * {
-    margin: 0;
-    padding: 0;
-    line-height: 1em;
-    font-weight: 100;
-}
-
-#pageHeader a {
-    color: #766;
-    text-decoration: none;
-    position: relative;
-    z-index: 20;
-}
-
-#pageHeader h1 a:hover {
-    color: #fff;
-}
-
-#pageHeader h4 a:hover {
-    text-decoration: underline;
 }
 
 #leftContainer,
@@ -56,56 +8,32 @@ textarea {
     margin: 0;
     padding: 0;
     position: relative;
-    width: 47.5%;
-    margin-top: -1.4em;
+    width: 46%;
+    margin-top: 2px
 }
 
 #leftContainer {
     float: left;
-    left: 1.5%;
+    left: 2.5%;
+}
+
+#leftContainer input {
+    min-width: 300px
 }
 
 #rightContainer {
     float: right;
-    right: 1.5%;
+    right: 2.5%;
 }
 
-#rightContainer > * {
-    float: right;
-    margin: 20px 0px 0px 0px;
-}
-
-.paneHeader {
-    margin: 0;
-    padding: 0;
-    position: relative;
-    width: 100%;
-    display: block;
-    height: 2em;
-}
-
-.paneHeader * {
-    position: relative;
-    font-weight: 900;
-}
-
-.paneHeader span {
-    background-color: #ddd5d5;
-    color: #444;
-    padding: 0 0.75em;
-    font-size: 110%;
+#rightContainerHeader {
+    margin: 3px 0px 0px 0px;
+    padding: 0px 0px 4px 0px;
 }
 
 #paneSetting {
+    float: left;
     display: block;
-    margin-left: auto;
-    margin-right: 0.5em;
-    font-size: 110%;
-    font-weight: 900;
-    font-family: Arial, Verdana, sans-serif;
-    background-color: #dacccc;
-    color: #444;
-    border: 1px solid #999;
 }
 
 .pane {
@@ -126,13 +54,18 @@ textarea {
     height: 400px;
 }
 
+#inputPane,#previewPane,#outputPane {
+    padding: 5px;
+    border: solid silver 1px;
+}
+
 #previewPane {
-    background-color: #f3eeee;
+    background-color: #F4F4EC;
 }
 
 #outputPane {
-    background-color: #6c6666;
-    color: #fff;
+    background-color: #F4F4EC;
+    color: #000;
     display: none;
 }
 
@@ -144,10 +77,6 @@ div.pane {
     background-color: #fff;
 }
 
-#previewPane {
-    padding: 0;
-}
-
 #previewPane > * {
     margin-left: 4px;
     margin-right: 4px;
@@ -157,38 +86,12 @@ div.pane {
     margin-left: 3em;
 }
 
-#previewPane
-            > :first-child {
-    margin-top: 4px;
- /* pane padding */
-}
-
 #previewPane * {
     line-height: 1.4em;
 }
 
 #previewPane code {
     font-size: 1.3em;
-}
-
-#footer {
-    margin: 0;
-    padding: 0;
-    position: relative;
-    float: left;
-    width: 100%;
-    height: 2.5em;
-    margin-top: 0.5em;
-    font-family: Helvetica, Arial, Verdana, sans-serif;
-}
-
-#footer a {
-    text-decoration: none;
-    color: #666;
-}
-
-#footer a:hover {
-    text-decoration: underline;
 }
 
 #byline {
@@ -201,48 +104,12 @@ div.pane {
     right: 5em;
 }
 
-#convertTextButton {
-    line-height: 1em;
-    background-color: #ccbfbf;
-    color: #000;
-    border: none;
-}
-
-#convertTextButton:hover {
-    background-color: #fff;
-    color: black;
-}
-
-#convertTextSetting {
-    background-color: #dacccc;
-    color: #222;
-    border: 1px solid #999;
-}
-
 #processingTime {
-    margin: 0;
-    padding: 0;
     width: 4em;
     text-align: right;
     color: #999;
     position: absolute;
     right: 1em;
-    top: 0;
-}
-
-code[class]:after {
-    content: 'highlight: ' attr(class);
-    display: block;
-    text-align: right;
-    font-size: smaller;
-    color: #CCC;
-    border-top: solid 1px;
-    padding-top: 0.5em;
-}
-
-code {
-    display: block;
-    background: #F0F0F0;
 }
 
 .string,

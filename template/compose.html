@@ -8,56 +8,97 @@
             Compose
         </title>
         <script type="text/javascript" src="../dependencies/showdown.js">
-                                                        
+                                                                                                        
         </script>
         <script type="text/javascript" src="../dependencies/showdown-gui.js">
-                                                        
+                                                                                                        
         </script>
         <script type="text/javascript" src="../script/home.js">
-                                                        
+                                                                                                        
         </script>
+        <script type="text/javascript" src="../dependencies/highlight.js">
+                                                                                                        
+        </script>
+        <link href="../static/blog.css" type="text/css" rel="stylesheet" />
         <link href="../static/compose.css" type="text/css" rel="stylesheet" />
     </head>
     
     <body>
-        <script type="text/javascript" src="../dependencies/highlight.js">
-                                                        
-        </script>
-        <div id="pageHeader">
-            <h4>
-                <a href="http://daringfireball.net/projects/markdown/" title="The Markdown web site">Markdown</a>
-            </h4>
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="container">
+                    {% if not handler.logged_in %}
+                    <span class="error">
+                        Not logged in {{handler.result_message}}
+                    </span>
+                    {% else %}
+                    <a href="/" class="user">{{handler.user.name}}</a>
+                    {% end %}
+                    <ul class="nav">
+                        {% if not handler.logged_in %}
+                        <form action="/login" method="post" enctype="multipart/form-data" style="display:inline">
+                            <label>
+                                User:
+                                <input name="username" placeholder="First and last name" required>
+                            </label>
+                            <label>
+                                Password:
+                                <input type="password" name="password" placeholder="Password" required>
+                            </label>
+                            <input type="submit" value="Login">
+                        </form>
+                        {% else %}
+                        <a href="/logout">Logout</a>
+                        |
+                        <a href="/compose">Compose</a>
+                        {% end %}
+                    </ul>
+                </div>
+            </div>
         </div>
         <form action="/compose" method="post" enctype="multipart/form-data">
             <div id="leftContainer">
-                <div class="paneHeader">
-                    <span>
-                        {{handler.result_message}}
-                    </span>
-                </div>
                 <label>
                     Title:
                     <input type="text" name="title" placeholder="Blog title" required>
                 </label>
-                Content:
-                <br/>
                 <textarea id="inputPane" cols="80" rows="20" class="pane" name="content">
                 </textarea>
-                <input type="submit" value="Save">
+                <div style="text-align: center;margin_top:10px">
+                    <input type="submit" value="Post" class="custom_button">
+                </div>
             </div>
             <div id="rightContainer">
-                <div class="paneHeader">
+                <div id="rightContainerHeader">
                     <select id="paneSetting" selected="outputPane">
-                    	<option value="previewPane">
+                        <option value="previewPane">
                             Preview
                         </option>
                         <option value="outputPane">
                             HTML Output
                         </option>
                     </select>
+                    <span id="convertTextControls">
+                        <button id="convertTextButton" type="button" title="Convert text now">
+                            Convert text
+                        </button>
+                        <select id="convertTextSetting">
+                            <option value="delayed">
+                                in the background
+                            </option>
+                            <option value="continuous">
+                                every keystroke
+                            </option>
+                            <option value="manual">
+                                manually
+                            </option>
+                        </select>
+                    </span>
+                    <div id="processingTime" title="Last processing time">
+                        0 ms
+                    </div>
                 </div>
-                <textarea id="outputPane" class="pane" cols="80" rows="20" readonly="readonly"
-                name="html">
+                <textarea id="outputPane" class="pane" readonly="readonly" name="html">
                 </textarea>
                 <div id="previewPane" class="pane">
                     <noscript>
@@ -70,39 +111,16 @@
                 </textarea>
             </div>
         </form>
-        <div id="footer">
-            <span id="byline">
-                <b>
-                    <a href="http://www.attacklab.net/showdown-v0.9.zip">Download v0.9</a>
-                </b>
-                copyright &copy; 2007
-                <script type="text/javascript">
-                                                                hivelogic_enkoder(); /* ]]> */
-                </script>
-                John Fraser
-                <script type="text/javascript">
-                                                document.write("</a>");
-                </script>
-            </span>
-            <span id="convertTextControls">
-                <button id="convertTextButton" type="button" title="Convert text now">
-                    Convert text
-                </button>
-                <select id="convertTextSetting">
-                    <option value="delayed">
-                        in the background
-                    </option>
-                    <option value="continuous">
-                        every keystroke
-                    </option>
-                    <option value="manual">
-                        manually
-                    </option>
-                </select>
-            </span>
-            <div id="processingTime" title="Last processing time">
-                0 ms
-            </div>
+        <div class="footer">
+            <dl>
+                <dd>
+                    Copyright © 2012,
+                    <a href="http://www.321cyb.com">321cyb.com</a>
+                    ,
+                    <a href="http://www.clybe.com">clybe.com</a>
+                    All Rights Reserved
+                </dd>
+            </dl>
         </div>
     </body>
 
