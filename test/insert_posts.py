@@ -3,6 +3,7 @@
 #Author: Kevin Chen
 #Date: 
 
+from __future__ import print_function
 import pymongo
 import time
 
@@ -16,7 +17,10 @@ if __name__ == "__main__":
         c = pymongo.Connection("localhost", 27017)
         posts = c.blog.posts
         p1 = posts.find_one()
-        insert_many_posts(posts, p1)
+        if p1:
+                insert_many_posts(posts, p1)
+        else:
+                print("There's no posts now, please at least have one post in database.")
 
 
 
