@@ -20,6 +20,11 @@ body {
     color: #333;
 }
 
+.nav label {
+
+    color: #ffffff;
+}
+
 .header {
     height: 30px;
     width: 100%;
@@ -147,6 +152,8 @@ body {
 
 .page_content {
     width: 100%;
+    height:auto;
+    min-height:550px;
     margin: 0px 0px 10px 0px;
     padding: 10px 0px 10px 20px;
     background-color: #ffffff;
