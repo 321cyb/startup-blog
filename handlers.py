@@ -12,7 +12,6 @@ import logging
 import functools
 import urllib.parse
 
-import markdown
 import pymongo
 from  bson.objectid import ObjectId
 

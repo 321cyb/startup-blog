@@ -27,8 +27,8 @@ class Application(tornado.web.Application):
                         (r"/static/(.*)", tornado.web.StaticFileHandler, {"path": os.path.join(os.path.dirname(__file__), "static")})
                    ]
                 settings = dict(
-                       template_path = "template/",
-                       static_path   = "static/",
+                       template_path = os.path.join(os.path.dirname(__file__), "template/"),
+                       static_path   = os.path.join(os.path.dirname(__file__), "static/"),
                        cookie_secret = setting.COOKIE_SECRET,
                        debug         = True
                    )

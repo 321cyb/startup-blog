@@ -29,3 +29,6 @@ pip-log.txt
 #customized
 .DS_Store
 __pycache__
+setting.py
+template/test.html
+log/*
