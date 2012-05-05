@@ -14,8 +14,8 @@ if __name__ == "__main__":
         if len(sys.argv) != 3:
                 print("usage: {0} user password".format(sys.argv[0]))
         else:
-                user = argv[1]
-                passwd = argv[2]
+                user = sys.argv[1]
+                passwd = sys.argv[2]
                 c = pymongo.Connection("localhost", 27017) #This is default
                 salt = os.urandom(8)
                 password = hashlib.sha256(passwd.encode() + salt).hexdigest()
