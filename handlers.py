@@ -136,13 +136,13 @@ class WeiboLoginHandler(BaseHandler, WeiboMixin):
      @tornado.web.asynchronous
      def get(self):
           if self.get_argument("code", False):
-              self.get_authenticated_user( redirect_uri='http://321cyb.com/oauth/weibo',
+              self.get_authenticated_user( redirect_uri=setting.WEIBO_REDIRECT_URL,
                             client_id=setting.WEIBO_APPKEY,
                             client_secret=setting.WEIBO_APP_SECRET,
                             code=self.get_argument("code"),
                             callback=self.async_callback(self._on_login))
           else:
-              self.authorize_redirect(redirect_uri='http://321cyb.com/oauth/weibo',
+              self.authorize_redirect(redirect_uri=setting.WEIBO_REDIRECT_URL,
                                               client_id=setting.WEIBO_APPKEY,
                                               extra_params={"response_type": "code"})
      def _on_login(self, user):
