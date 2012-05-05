@@ -152,9 +152,10 @@ class WeiboLoginHandler(BaseHandler, WeiboMixin):
                                               client_id=setting.WEIBO_APPKEY,
                                               extra_params={"response_type": "code"})
      def _on_login(self, user):
-         self.create_user_if_necessary(user)
-         self.set_secure_cookie("authenticated_user", "weibo\x00" + str(user["id"]), expires_days = setting.COOKIE_EXPIRE_DAYS)
-         self.redirect("/")
+         if user:
+             self.create_user_if_necessary(user)
+             self.set_secure_cookie("authenticated_user", "weibo\x00" + str(user["id"]), expires_days = setting.COOKIE_EXPIRE_DAYS)
+             self.redirect("/")
          self.finish()
 
 
