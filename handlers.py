@@ -170,7 +170,7 @@ class EditHandler(BaseHandler):
     def post(self, edit_id):
         title = self.get_argument("title", "")
         content = self.get_argument("content", "")
-        html = markdown.markdown(content)
+        html =  self.get_argument("html", "")
 
         try:
             self.application.db.posts.update({"_id": ObjectId(edit_id)},
