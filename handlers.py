@@ -78,8 +78,9 @@ class BaseHandler(tornado.web.RequestHandler):
         '''
         user = self.get_secure_cookie("authenticated_user")
         if user:
-            hit = self.application.db.users.find_one(utils.provider_and_uid(user.decode())):
-                return front.User(hit["name"], hit["provider"], hit["uid"])
+            hit = self.application.db.users.find_one(utils.provider_and_uid(user.decode()))
+                if hit:
+                    return front.User(hit["name"], hit["provider"], hit["uid"])
 
         return None
 
