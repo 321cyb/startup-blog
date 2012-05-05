@@ -2,8 +2,12 @@
 
 import os
 import sys
+import logging
 
 sys.path.append(os.path.join(os.getcwd(), "dependencies"))
+
+#logging setting
+logging.basicConfig(filename=os.path.join(os.path.dirname(__file__), "/log/blog.log"), level=logging.DEBUG)
 
 
 #DO NOT CHANGE THIS! nginx forwards requests to here.
