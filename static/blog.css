@@ -232,4 +232,9 @@ code {
     font-size: 16px;
 }
 
+.ico_login {
+background: url(http://www.sinaimg.cn/blog/developer/wiki/LOGO_16x16.png) no-repeat;
+padding: 2px 0 2px 20px;
+}
+
 
