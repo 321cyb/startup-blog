@@ -149,7 +149,8 @@ class ComposeHandler(BaseHandler):
     def post(self):
         title = self.get_argument("title")
         content = self.get_argument("content")
-        html = markdown.markdown(content)
+        html = self.get_argument("html", "")
+        logging.error(html)
         author = self.cookie_get_user().name
 
         current_time = int(time.time())
