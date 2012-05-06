@@ -134,6 +134,11 @@ class LoginHandler(BaseHandler):
         self.redirect("/?" + urllib.parse.urlencode({"login_failed": "true"}))
 
 class WeiboLoginHandler(BaseHandler, WeiboMixin):
+    def finish(self, chunk=None):
+         import traceback
+         traceback.print_stack()
+         tornado.web.RequestHandler.finish(self, chunk)
+
      def create_user_if_necessary(self, user):
          if not self.application.db.users.find_one({"provider": "weibo", "uid": str(user["id"])}):
              self.application.db.users.insert({"name":user["screen_name"], "provider": "weibo", "uid": str(user["id"]), "password": "", "salt": "", 
@@ -155,8 +160,7 @@ class WeiboLoginHandler(BaseHandler, WeiboMixin):
          if user:
              self.create_user_if_necessary(user)
              self.set_secure_cookie("authenticated_user", "weibo\x00" + str(user["id"]), expires_days = setting.COOKIE_EXPIRE_DAYS)
-             self.redirect("/")
-         self.finish()
+         self.redirect("/")
 
 
 class LogoutHandler(BaseHandler):
