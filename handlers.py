@@ -58,9 +58,9 @@ class BaseHandler(tornado.web.RequestHandler):
                 pages += 1
             page_list = self.generate_pages(list(range(1, pages + 1)), pagenumber)
             if pagenumber== 1:
-                posts = self.application.db.posts.find().sort("time", pymongo.DESCENDING).limit(setting.POSTS_PER_PAGE)
+                posts = self.application.db.posts.find().sort("ctime", pymongo.DESCENDING).limit(setting.POSTS_PER_PAGE)
             else:
-                posts = self.application.db.posts.find().sort("time", pymongo.DESCENDING) \
+                posts = self.application.db.posts.find().sort("ctime", pymongo.DESCENDING) \
                         .skip((pagenumber - 1) * setting.POSTS_PER_PAGE) \
                         .limit(setting.POSTS_PER_PAGE)
 
