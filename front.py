@@ -6,16 +6,18 @@
 class Post():
         post_id = ""
         title = ""
-        mtime = 0 #timestamp
+        mtime = 0 #last modify timestamp
+        ctime = 0 #create timestamp
         author = ""
         markdown = ""
         html = ""
 
-        def __init__(self, post_id, title, author, mtime, markdown = "", html = ""):
+        def __init__(self, post_id, title, author, mtime, ctime, markdown = "", html = ""):
                 self.post_id = post_id
                 self.title = title
                 self.author = author
                 self.mtime = mtime
+                self.ctime = ctime
                 self.markdown = markdown
                 self.html = html
 

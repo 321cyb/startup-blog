@@ -23,6 +23,7 @@ class Application(tornado.web.Application):
                         (r"/delete/(\w+)", handlers.DeleteHandler),
                         (r"/edit/(\w+)", handlers.EditHandler),
                         (r"/page/(\d+)", handlers.PageHandler),
+                        (r"/feed", handlers.FeedHandler),
                         (r"/oauth/weibo",handlers.WeiboLoginHandler),
                         (r"/dependencies/(.*)", tornado.web.StaticFileHandler, {"path": os.path.join(os.path.dirname(__file__), "dependencies")}),
                         (r"/static/(.*)", tornado.web.StaticFileHandler, {"path": os.path.join(os.path.dirname(__file__), "static")})

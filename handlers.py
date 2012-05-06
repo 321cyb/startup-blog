@@ -35,7 +35,7 @@ class BaseHandler(tornado.web.RequestHandler):
         return  ->  Post type
         '''
         post = self.application.db.posts.find_one({"_id": ObjectId(post_id)})
-        return front.Post(post_id, post["title"], post["author"], post["time"], post["markdown"], post["html"])
+        return front.Post(post_id, post["title"], post["author"], post["mtime"], post["ctime"], post["markdown"], post["html"])
 
     def delete_one_post(self, post_id):
         posts = self.application.db.posts
@@ -66,7 +66,7 @@ class BaseHandler(tornado.web.RequestHandler):
 
             this_page_posts = []
             for post in posts:
-                this_page_posts.append(front.Post(post["_id"], post["title"], post["author"], post["time"], post["markdown"], post["html"]))
+                this_page_posts.append(front.Post(post["_id"], post["title"], post["author"], post["mtime"], post["ctime"],  post["markdown"], post["html"]))
 
             return (this_page_posts, page_list)
         else:
@@ -181,7 +181,7 @@ class ComposeHandler(BaseHandler):
         current_time = int(time.time())
 
         posts = self.application.db.posts
-        post = {"title": title, "markdown" : content, "html" : html, "time" : current_time, "author": author}
+        post = {"title": title, "markdown" : content, "html" : html, "mtime" : current_time, "ctime": current_time, "author": author}
         posts.insert(post)
         self.redirect("/")
 
@@ -197,14 +197,21 @@ class EditHandler(BaseHandler):
         title = self.get_argument("title", "")
         content = self.get_argument("content", "")
         html =  self.get_argument("html", "")
+        current_time = int(time.time())
 
         try:
             self.application.db.posts.update({"_id": ObjectId(edit_id)},
-                    {"$set": {"title": title, "markdown" : content, "html" : html}} )
+                    {"$set": {"title": title, "markdown" : content, "html" : html, "mtime": current_time}} )
             self.redirect("/")
         except e:
             edit_result = "update failed." #Wow, this will never show up. fix later.
             self.redirect("/edit/" + edit_id)
+        
+class FeedHandler(BaseHandler):
+    def get(self):
+        (posts, page_list) = self.get_posts_of_page(1)
+        self.render("feed.xml", posts = posts)
+
         
 
 class DeleteHandler(BaseHandler):
@@ -213,5 +220,3 @@ class DeleteHandler(BaseHandler):
     def get(self, delete_id):
         self.delete_one_post(delete_id)
         self.redirect("/")
-
-
