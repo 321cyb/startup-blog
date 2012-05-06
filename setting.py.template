@@ -4,7 +4,7 @@ import os
 import sys
 import logging
 
-sys.path.append(os.path.join(os.getcwd(), "dependencies"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "dependencies"))
 
 #logging setting
 if not (os.path.exists(os.path.join(os.path.dirname(__file__), "log"))):
