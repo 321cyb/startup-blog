@@ -15,7 +15,7 @@
     {% for post in posts %}
     <entry>
         <id>id</id>
-        <title type="text">{{ post.post_id }}</title>
+        <title type="text">{{ post.title }}</title>
         <link href="http://321cyb.com/" rel="alternate" type="text/html"/>
         <updated>{{ datetime.datetime.fromtimestamp(post.mtime).strftime(date_format) }}</updated>
         <published>{{ datetime.datetime.fromtimestamp(post.ctime).strftime(date_format) }}</published>
