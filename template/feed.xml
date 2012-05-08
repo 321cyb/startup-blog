@@ -8,8 +8,8 @@
     {% else %}
     <updated>{{ datetime.datetime.utcnow().strftime(date_format) }}</updated>
     {% end %}
-    <id>http://{{ handler.request.host }}/</id>
-    <link rel="alternate" href="http://{{ handler.request.host }}/" title="Startup Blog" type="text/html"/>
+    <id>http://{{ request.host }}/</id>
+    <link rel="alternate" href="http://{{ request.host }}/" title="Startup Blog" type="text/html"/>
     <link rel="self" href="http://321cyb.om/feed" title="Startup Blog" type="application/atom+xml"/>
     <author><name>Guess who?</name></author>
     {% for post in posts %}
@@ -19,7 +19,7 @@
         <link href="http://321cyb.com/" rel="alternate" type="text/html"/>
         <updated>{{ datetime.datetime.fromtimestamp(post.mtime).strftime(date_format) }}</updated>
         <published>{{ datetime.datetime.fromtimestamp(post.ctime).strftime(date_format) }}</published>
-        <content type="xhtml" xml:base="http://{{ handler.request.host }}/">
+        <content type="xhtml" xml:base="http://{{ request.host }}/">
             <div xmlns="http://www.w3.org/1999/xhtml">{% raw post.html  %}</div>
         </content>
     </entry>

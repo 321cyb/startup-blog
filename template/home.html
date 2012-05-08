@@ -1,89 +1,36 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <script src="../dependencies/jquery-1.7.1.js" type="text/javascript">
-                                                                                        
-        </script>
-        <script type="text/javascript" src="../dependencies/highlight.pack.js">
-                                                                        
-        </script>
-        <script src="../script/home.js" type="text/javascript">
-                
-        </script>
-        <script type="text/javascript">
-        hljs.initHighlightingOnLoad();
-        </script>
-        <link href="../static/blog.css" type="text/css" rel="stylesheet" />
-        <link href="../static/compose.css" type="text/css" rel="stylesheet" />
-        <link href="../static/default.css" type="text/css" rel="stylesheet" />
-        <link rel="shortcut icon" href="../favicon.ico" />
-        <title>
-            Startup Blog
-        </title>
-    </head>
-    
-    <body>
-        <div class="navbar">
-            <div class="navbar-inner">
-                <div class="container">
-                    {% if not handler.logged_in %}
-                    <span class="error">
-                        Not logged in {{handler.result_message}}
-                    </span>
-                    {% else %}
-                    <a href="/" class="user">{{handler.user.name}}</a>
-                    {% end %}
-                    <ul class="nav">
-                        {% if not handler.logged_in %}
-                        <form action="/login" method="post" enctype="multipart/form-data" style="display:inline">
-                            <label>
-                                User:
-                                <input name="username" placeholder="First and last name" required>
-                            </label>
-                            <label>
-                                Password:
-                                <input type="password" name="password" placeholder="Password" required>
-                            </label>
-                            <input type="submit" value="Login">
-                        </form>
-                        <a href="/oauth/weibo" class="ico_login">微博登录</a>
-                        {% else %}
-                        <a href="/logout">Logout</a>
-                        |
-                        <a href="/compose">Compose</a>
-                        {% end %}
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="content">
-            <div class="page_header">
-                <p>
-                    Startup－Blog
-                </p>
-            </div>
-            <div class="page_content">
+{% extends "base.html"  %}
+
+{% block head %}
+        <script src="../script/home.js" type="text/javascript"> </script>
+{% end %}
+
+{% block page_content %}
                 {% for post in posts %}
-                <div>
-                    <span class="blog_title">
-                        {{post.title}}
+                <div class="one_post">
+                    <div>
+                        <span class="blog_title">
+                            {{post.title}}
+                        </span>
+                        {% if handler.logged_in %}
+                        <a href="/edit/{{post.post_id}}" id="link_edit">Edit</a>
+                        {% end %}
+                    </div>
+                    <div class="blog_content">
+                        {% raw post.html %}
+                    </div>
+                    <p class="read_full">
+                    <a href="/entry/{{ post.post_id }}">Read Full...</a>
+                    </p>
+                    <span class="blog_date">
+                        {{ datetime.datetime.fromtimestamp( post.mtime ) }}
                     </span>
-                    {% if handler.logged_in %}
-                    <a href="/edit/{{post.post_id}}" id="link_edit">Edit</a>
-                    {% end %}
-                </div>
-                <div class="blog_content">
-                    {% raw post.html %}
-                </div>
-                <span class="blog_date">
-                    {{ datetime.datetime.fromtimestamp( post.mtime ) }}
-                </span>
-                <div class="dashline">
+                    <div class="dashline">
+                    </div>
                 </div>
                 {% end %}
-            </div>
-            <div class="bottom">
+{% end %}
+
+{% block bottom %}
                 {% for page in pages %} {% if page == current_page%}
                 <a href="/page/{{page}}"><span style="color:#ff0000">{{page}}</span></a>
                 {% else %}
@@ -93,19 +40,4 @@
                     |
                 </span>
                 {% end %}
-            </div>
-        </div>
-        <div class="footer">
-            <dl>
-                <dd>
-                    Copyright © 2012,
-                    <a href="http://www.321cyb.com">321cyb.com</a>
-                    ,
-                    <a href="http://www.clybe.com">clybe.com</a>
-                    All Rights Reserved
-                </dd>
-            </dl>
-        </div>
-    </body>
-
-</html>
+{% end %}

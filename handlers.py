@@ -17,6 +17,18 @@ import front
 import utils
 from thirdAuth.weibo import WeiboMixin
 
+def just_get_user_info(func):
+        @functools.wraps(func)
+        def handle(self, *args, **kwargs):
+            user = self.get_current_user()
+            if user:
+                self.logged_in = True
+                self.user = user
+
+            func(self, *args, **kwargs)
+
+        return handle
+
 
 #In db, every post entry has these fields:
 #title, author, time, markdown, html
@@ -72,10 +84,7 @@ class BaseHandler(tornado.web.RequestHandler):
         else:
             return ([], [])
 
-    def cookie_get_user(self):
-        '''
-        str
-        '''
+    def get_current_user(self):
         user = self.get_secure_cookie("authenticated_user")
         if user:
             hit = self.application.db.users.find_one(utils.provider_and_uid(user.decode()))
@@ -84,24 +93,12 @@ class BaseHandler(tornado.web.RequestHandler):
 
         return None
 
-    def redirect_if_not_logged_in(func):
-        @functools.wraps(func)
-        def handle(self, *args, **kwargs):
-            user = self.cookie_get_user()
-            if user:
-                self.logged_in = True
-                self.user = user
-            elif self.request.path != "/":
-                self.redirect("/")
-                return
-
-            func(self, *args, **kwargs)
-
-        return handle
+    def get_login_url(self):
+        return "/"
 
 
 class PageHandler(BaseHandler):
-    @BaseHandler.redirect_if_not_logged_in
+    @just_get_user_info
     def get(self, pagenumber): 
         current_page = int(pagenumber)
         (posts, page_list) = self.get_posts_of_page(current_page)
@@ -117,6 +114,15 @@ class HomeHandler(PageHandler):
  
         return PageHandler.get(self, 1)
 
+
+class EntryHandler(BaseHandler):
+    @just_get_user_info
+    def get(self, entry_id):
+        post = self.get_one_post(entry_id)
+        if post:
+            self.render("entry.html", post = post)
+        else:
+            self.send_error(404)
 
 class LoginHandler(BaseHandler):
     def post(self):
@@ -166,7 +172,8 @@ class LogoutHandler(BaseHandler):
 
 class ComposeHandler(BaseHandler):
 
-    @BaseHandler.redirect_if_not_logged_in
+    @just_get_user_info
+    @tornado.web.authenticated
     def get(self):
         self.render("compose.html")
 
@@ -176,7 +183,7 @@ class ComposeHandler(BaseHandler):
         content = self.get_argument("content")
         html = self.get_argument("html", "")
         logging.error(html)
-        author = self.cookie_get_user().name
+        author = self.get_current_user().name
 
         current_time = int(time.time())
 
@@ -188,7 +195,8 @@ class ComposeHandler(BaseHandler):
 
 class EditHandler(BaseHandler):
 
-    @BaseHandler.redirect_if_not_logged_in
+    @just_get_user_info
+    @tornado.web.authenticated
     def get(self, edit_id):
         post = self.get_one_post(edit_id)
         self.render("edit.html", post = post)
@@ -216,7 +224,10 @@ class FeedHandler(BaseHandler):
 
 class DeleteHandler(BaseHandler):
 
-    @BaseHandler.redirect_if_not_logged_in
+    @just_get_user_info
+    @tornado.web.authenticated
     def get(self, delete_id):
         self.delete_one_post(delete_id)
         self.redirect("/")
+        
+

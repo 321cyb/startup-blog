@@ -166,10 +166,6 @@ body {
     margin: 10px 20px 20px 0px;
 }
 
-.dashline:last-child {
-    display: none;
-}
-
 .blog_title {
     font-size: 24px;
 }
