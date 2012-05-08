@@ -1,0 +1,41 @@
+{% extends "base.html"  %}
+
+{% block page_content %}
+                <div class="one_post">
+                    <div>
+                        <span class="blog_title">
+                            {{post.title}}
+                        </span>
+                        {% if handler.logged_in %}
+                        <a href="/edit/{{post.post_id}}" id="link_edit">Edit</a>
+                        {% end %}
+                    </div>
+                    <div class="blog_content">
+                        {% raw post.html %}
+                    </div>
+                    <span class="blog_date">
+                        {{ datetime.datetime.fromtimestamp( post.mtime ) }}
+                    </span>
+
+                    <!-- JiaThis Button BEGIN -->
+                    <div id="jiathis_style_32x32">
+                        <a class="jiathis_button_qzone"></a>
+                        <a class="jiathis_button_tsina"></a>
+                        <a class="jiathis_button_tqq"></a>
+                        <a class="jiathis_button_renren"></a>
+                        <a class="jiathis_button_kaixin001"></a>
+                        <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                        <a class="jiathis_counter_style"></a>
+                    </div>
+                    <script type="text/javascript" src="http://v2.jiathis.com/code/jia.js" charset="utf-8"></script>
+                    <!-- JiaThis Button END -->
+
+
+                    <!-- UY BEGIN -->
+                    <div id="uyan_frame"></div>
+                    <script type="text/javascript" id="UYScript" src="http://v1.uyan.cc/js/iframe.js?UYUserId=" async=""></script>
+                    <!-- UY END -->
+
+                </div>
+{% end %}
+
