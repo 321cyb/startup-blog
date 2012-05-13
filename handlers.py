@@ -231,3 +231,9 @@ class DeleteHandler(BaseHandler):
         self.redirect("/")
         
 
+class JSONTestHandler(BaseHandler):
+    def get(self):
+        import json
+        s = json.dumps({"name": "clybe", "password": "youknow"})
+        self.write(s)
+

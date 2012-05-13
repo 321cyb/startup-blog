@@ -25,6 +25,7 @@ class Application(tornado.web.Application):
                         (r"/page/(\d+)", handlers.PageHandler),
                         (r"/entry/(\w+)", handlers.EntryHandler),
                         (r"/feed", handlers.FeedHandler),
+                        (r"/json_test", handlers.JSONTestHandler),
                         (r"/oauth/weibo",handlers.WeiboLoginHandler),
                         (r"/dependencies/(.*)", tornado.web.StaticFileHandler, {"path": os.path.join(os.path.dirname(__file__), "dependencies")}),
                         (r"/static/(.*)", tornado.web.StaticFileHandler, {"path": os.path.join(os.path.dirname(__file__), "static")})
